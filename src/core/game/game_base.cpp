@@ -1,5 +1,6 @@
 #include "core/game/game_base.h"
 #include <Windows.h>
+#include <stdexcept>
 
 namespace GTASA {
     namespace SDK {
@@ -12,14 +13,10 @@ namespace GTASA {
             if (s_initialized)
                 return;
 
-            // base address of gta_sa.exe
+            // Obtain the base address of gta_sa.exe
             HMODULE hModule = GetModuleHandleA(nullptr);
             if (hModule == nullptr) {
-                // Critical initialization error: failed to get module handle
-                // Set error state and return - address() will return 0 for safety
-                s_base = 0;
-                s_initialized = false;
-                return;
+                throw std::runtime_error("GameBase::initialize() failed: unable to obtain module handle");
             }
             s_base = reinterpret_cast<uintptr_t>(hModule);
             s_initialized = true;
@@ -33,9 +30,7 @@ namespace GTASA {
         uintptr_t GameBase::address(uintptr_t offset)
         {
             if (!s_initialized || s_base == 0) {
-                // Base not initialized - return 0 to prevent invalid memory access
-                // Callers should check for 0 return value
-                return 0;
+                throw std::runtime_error("GameBase::address() called before initialize()");
             }
             return s_base + offset;
         }

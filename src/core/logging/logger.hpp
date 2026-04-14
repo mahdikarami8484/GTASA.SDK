@@ -5,6 +5,7 @@
  * This file provides a singleton Logger class that implements thread-safe,
  * asynchronous logging with support for multiple log levels (Info, Warning, Error).
  * Messages are queued in a circular buffer and processed by a dedicated thread.
+ * Output is written to both the debug console and a timestamped log file under logs/.
  */
 
 #pragma once
@@ -13,6 +14,8 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <fstream>
+#include <string>
 #include "circular_buffer.hpp"
 #include <cstdarg>
 
@@ -42,12 +45,13 @@ enum class LogLevel {
  * 
  * The Logger class implements the singleton pattern and provides thread-safe
  * logging functionality. Messages are enqueued and processed asynchronously
- * by a dedicated logging thread.
+ * by a dedicated logging thread. Each session writes to both the console
+ * (debug builds only) and a timestamped log file at logs/sdk_YYYYMMDD_HHMMSS.log.
  * 
  * Usage:
  *   Logger::Instance().Start();  // Start the logging thread
  *   LOG_INFO("Message: %s", text);
- *   Logger::Instance().Stop();   // Stop the logging thread
+ *   Logger::Instance().Stop();   // Stop the logging thread and flush the log file
  */
 class Logger {
 public:
@@ -70,8 +74,8 @@ public:
 
     void SetLevel(LogLevel level);
     
-    void Start(); ///< Start the logging thread
-    void Stop();  ///< Stop the logging thread
+    void Start(); ///< Start the logging thread and open the log file
+    void Stop();  ///< Stop the logging thread and close the log file
 
 private:
     Logger() = default;
@@ -80,9 +84,13 @@ private:
     Logger(const Logger&) = delete;            ///< Delete copy constructor
     Logger& operator=(const Logger&) = delete; ///< Delete copy assignment operator
 
-    void writeToConsole(const std::string & message, LogLevel level, const char* file = nullptr, uint16_t line = 0);
+    void writeToConsole(const std::string& message, LogLevel level, const char* file = nullptr, uint16_t line = 0);
+    void writeToFile(const std::string& message, LogLevel level, const char* file = nullptr, uint16_t line = 0);
     void enqueueMessage(const char* format, va_list args, LogLevel level, const char* file = nullptr, uint16_t line = 0);
     void loggerThread();
+
+    /// Build the level prefix string (e.g. "[INFO] ")
+    static const char* levelPrefix(LogLevel level);
 
     LogLevel currentLevel = LogLevel::Info;
     CircularBuffer<LogMessage, 1024> logBuffer;
@@ -90,6 +98,7 @@ private:
     std::condition_variable cv;
     std::thread thread;
     bool running = false;
+    std::ofstream logFile; ///< Output file stream for the current log file
 };
 
 /**

@@ -1,6 +1,7 @@
 #include "sdk_runtime.h"
 #include "logging/logger.hpp"
 #include "core/game/game_base.h"
+#include <stdexcept>
 
 using namespace GTASA::SDK;
 using namespace Logging;
@@ -14,7 +15,6 @@ SDKRuntime& SDKRuntime::instance()
 SDKRuntime::SDKRuntime()
 	: m_initialized(false)
 {
-	return;
 }
 
 SDKRuntime::~SDKRuntime()
@@ -34,9 +34,13 @@ void SDKRuntime::init()
 
 	LOG_INFO("[SDKRuntime] Initializing SDK Runtime...");
 
-
-	GameBase::initialize();
-
+	try {
+		GameBase::initialize();
+	} catch (const std::runtime_error& e) {
+		LOG_ERROR("[SDKRuntime] Critical error: %s", e.what());
+		Logger::Instance().Stop();
+		throw;
+	}
 
 	LOG_INFO("[SDKRuntime] Initializing scripts...");
 	auto initializeEvent = std::make_unique<Events::InitializeEvent>();

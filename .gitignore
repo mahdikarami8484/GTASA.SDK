@@ -5,3 +5,4 @@
 build_codeql_detected_source_root
 build
 .vscode
+logs/

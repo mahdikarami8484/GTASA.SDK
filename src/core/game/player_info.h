@@ -1,6 +1,6 @@
 #pragma once
 
-#include "memory"
+#include <memory>
 #include "ped.h"
 
 namespace GTASA {

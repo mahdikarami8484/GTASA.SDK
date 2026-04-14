@@ -54,7 +54,6 @@ namespace GTASA {
                 if(const auto* crimeEvent = dynamic_cast<const Events::CrimeCommittedEvent*>(event.get())) {
                     LOG_INFO("[Sample Script] crime event...");
                 }
-                
             }
         };
 
@@ -65,48 +64,3 @@ namespace GTASA {
 namespace {
     GTASA::SDK::AutoRegisterScript<GTASA::SDK::SampleScript> _autoReg;
 }
-
-/* 
-
-
-                switch (type)
-                {   
-                case GTASA::SDK::EventType::GameProcess:
-                {
-                    if (GetAsyncKeyState(VK_F5) & 1)
-                    {
-                        std::unique_ptr<Player> player = Player::getLocal();
-                        if(!player || !player->isValid())
-                            break;
-                        player->setHealth(1000.0f);
-                        player->setArmor(1000.0f);
-                        float hp = player->getHealth();
-                        float arm = player->getArmor();
-                        LOG_INFO("Player Health: %.2f", hp);
-                        LOG_INFO("Player Armor: %.2f", arm);
-
-                        Vector3 pos = player->getMatrix()->getPosition();
-                        LOG_INFO("Player pos_x: %.2f, pos_y: %.2f, pos_z:%.2f", 
-                        pos.x, pos.y, pos.z);
-
-                        player->getMatrix()->setPosition({pos.x, pos.y, pos.z + 5.0f});
-                    }
-
-                    break;
-                }
-
-
-                case GTASA::SDK::EventType::OnCrimeCommitted:
-                    LOG_INFO("[Sample Script] player OnCrimeCommitted.!");
-                    break;
-
-                case GTASA::SDK::EventType::Initialize:
-                    LOG_INFO("Sample Script initialized.");
-                    break;
-                case GTASA::SDK::EventType::Shutdown:
-                    break;
-                default:
-                    break;
-                }
-
-*/
