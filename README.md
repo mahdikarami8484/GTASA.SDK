@@ -123,7 +123,7 @@ After a successful build, CMake produces `GTASA_SDK.dll` in the Visual Studio bu
 ## Build With Visual Studio
 
 1. Clone the repository and initialize submodules.
-2. Open the repository folder in Visual Studio 2022, or open `GTASA.SDK.vcxproj` if you prefer the existing project file.
+2. Open the repository folder in Visual Studio 2022 and let Visual Studio configure the project using the included CMake preset (`CMakePresets.json`).
 3. Select a Win32/x86 configuration.
 4. Make sure the DirectX SDK include path and Detours submodule are available.
 5. Build the `GTASA_SDK` target.
