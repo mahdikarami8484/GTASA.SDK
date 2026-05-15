@@ -20,7 +20,7 @@ GTASA.SDK is an in-development C++20 SDK for Grand Theft Auto: San Andreas. The 
 |-- CMakeLists.txt              # Main CMake build definition
 |-- CMakePresets.json           # Visual Studio 2022 Win32 configure preset
 |-- libs/
-|   `-- detours/                # Microsoft Detours dependency as a git submodule
+|   `-- Detours/                # Microsoft Detours dependency as a git submodule
 |-- scripts/                    # User scripts that react to SDK events
 |   |-- affinity_script.cpp     # Sets process affinity after initialization
 |   |-- sample_script.cpp       # Example player/HUD/gameplay script
