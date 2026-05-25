@@ -17,7 +17,7 @@ namespace GTASA {
         
         private:
             int m_windowWidth = 640;
-            int m_windowHieght = 480;
+            int m_windowHeight = 480;
         public:
             WindowedScript() {}
 
@@ -29,7 +29,7 @@ namespace GTASA {
                     LONG_PTR finalStyle = (createWindowExAEvent->dwStyle & ~WS_POPUP) | WS_OVERLAPPEDWINDOW;
                     LONG_PTR finalExStyle = createWindowExAEvent->dwExStyle | WS_EX_APPWINDOW;
 
-                    RECT rcClient = { 0, 0, m_windowWidth, m_windowHieght };
+                    RECT rcClient = { 0, 0, m_windowWidth, m_windowHeight };
                     AdjustWindowRectEx(&rcClient, finalStyle, FALSE, finalExStyle);
 
                     int finalWidth = rcClient.right - rcClient.left;
@@ -65,9 +65,9 @@ namespace GTASA {
                     createDeviceEvent->pPresentationParameters->hDeviceWindow = 
                         createDeviceEvent->hFocusWindow ? createDeviceEvent->hFocusWindow : GetForegroundWindow();
 
-                    // Optionally you can force backbuffer size to a fixed client size
+                    // Force the backbuffer size to match the fixed client size used by this script
                     createDeviceEvent->pPresentationParameters->BackBufferWidth  = m_windowWidth;
-                    createDeviceEvent->pPresentationParameters->BackBufferHeight = m_windowHieght;
+                    createDeviceEvent->pPresentationParameters->BackBufferHeight = m_windowHeight;
                 }
             }
         };
