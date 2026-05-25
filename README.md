@@ -167,4 +167,9 @@ Place new script files under `scripts/`. CMake automatically includes `scripts/*
 
 ## License
 
-No project license file is currently included in this repository. Add one before distributing or reusing the code outside a private educational context.
+GTASA.SDK is licensed under the GNU General Public License v3.0.
+
+This means that any distributed modifications or derivative works
+must also remain open source under the GPLv3 license.
+
+See the LICENSE file for details.
