@@ -2,15 +2,16 @@
 
 #include "memory"
 
-namespace GTASA {
+namespace GTASA
+{
     namespace SDK
     {
-        class BaseEvent {
-            public:
-            virtual const char* getName() const = 0; 
+        class BaseEvent
+        {
+        public:
+            virtual const char* getName() const = 0;
             virtual ~BaseEvent() = default;
-                
         };
-    }
-    
-}
+    } // namespace SDK
+
+} // namespace GTASA

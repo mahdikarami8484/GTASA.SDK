@@ -2,12 +2,14 @@
 
 #include <cstdint>
 
-namespace GTASA {
-    namespace SDK {
+namespace GTASA
+{
+    namespace SDK
+    {
 
-        class GameBase {
+        class GameBase
+        {
         public:
-          
             static void initialize();
 
             static uintptr_t base();

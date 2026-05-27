@@ -1,45 +1,46 @@
 #include "windows_hook.h"
 
-
-
 #include "player_hook.h"
 
 using namespace GTASA::SDK;
 using namespace Logging;
 
-namespace {
+namespace
+{
 
     // --------------------------------------------------
     // Windows function pointer
     // --------------------------------------------------
-    using t_CreateWindowExA = HWND(__stdcall*)(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName,
-        DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, 
-        HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
+    using t_CreateWindowExA = HWND(__stdcall*)(DWORD dwExStyle, LPCSTR lpClassName,
+                                               LPCSTR lpWindowName, DWORD dwStyle, int X, int Y,
+                                               int nWidth, int nHeight, HWND hWndParent,
+                                               HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam);
     t_CreateWindowExA o_CreateWindowExA = nullptr;
 
     HWND __stdcall hk_CreateWindowExA(DWORD dwExStyle, LPCSTR lpClassName, LPCSTR lpWindowName,
-        DWORD dwStyle, int X, int Y, int nWidth, int nHeight, HWND hWndParent, 
-        HMENU hMenu, HINSTANCE hInstance, LPVOID lpParam)
+                                      DWORD dwStyle, int X, int Y, int nWidth, int nHeight,
+                                      HWND hWndParent, HMENU hMenu, HINSTANCE hInstance,
+                                      LPVOID lpParam)
     {
         // EventBus::instance().dispatch(EventType::OnCrimeCommitted);
 
-        if (!o_CreateWindowExA) {
-            return CreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+        if (!o_CreateWindowExA)
+        {
+            return CreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth,
+                                   nHeight, hWndParent, hMenu, hInstance, lpParam);
         }
 
         auto createWindowExAEvent = std::make_shared<Events::CreateWindowExAEvent>(
-            dwExStyle, lpClassName, lpWindowName, dwStyle, 
-            X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam
-        );
+            dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu,
+            hInstance, lpParam);
         EventBus::instance().dispatch(createWindowExAEvent);
-        
-        return o_CreateWindowExA(
-            createWindowExAEvent->dwExStyle, createWindowExAEvent->lpClassName, createWindowExAEvent->lpWindowName, 
-            createWindowExAEvent->dwStyle, 
-            createWindowExAEvent->X, createWindowExAEvent->Y, createWindowExAEvent->nWidth,
-            createWindowExAEvent->nHeight, createWindowExAEvent->hWndParent, createWindowExAEvent->hMenu, 
-            createWindowExAEvent->hInstance, createWindowExAEvent->lpParam
-        );
+
+        return o_CreateWindowExA(createWindowExAEvent->dwExStyle, createWindowExAEvent->lpClassName,
+                                 createWindowExAEvent->lpWindowName, createWindowExAEvent->dwStyle,
+                                 createWindowExAEvent->X, createWindowExAEvent->Y,
+                                 createWindowExAEvent->nWidth, createWindowExAEvent->nHeight,
+                                 createWindowExAEvent->hWndParent, createWindowExAEvent->hMenu,
+                                 createWindowExAEvent->hInstance, createWindowExAEvent->lpParam);
     }
 
 } // anonymous namespace
@@ -49,12 +50,11 @@ namespace {
 // --------------------------------------------------
 void WindowsFuncsHook::install()
 {
-    o_CreateWindowExA = reinterpret_cast<decltype(&hk_CreateWindowExA)>(GetProcAddress(GetModuleHandleA("user32.dll"), "CreateWindowExA")); 
+    o_CreateWindowExA = reinterpret_cast<decltype(&hk_CreateWindowExA)>(
+        GetProcAddress(GetModuleHandleA("user32.dll"), "CreateWindowExA"));
 
-    HookManager::instance().addHook(
-        reinterpret_cast<void**>(&o_CreateWindowExA),
-        reinterpret_cast<void*>(hk_CreateWindowExA)
-    );
+    HookManager::instance().addHook(reinterpret_cast<void**>(&o_CreateWindowExA),
+                                    reinterpret_cast<void*>(hk_CreateWindowExA));
 
     LOG_INFO("[WindowsFuncsHook] CreateWindowExA func hooked!");
 }
@@ -67,6 +67,7 @@ void WindowsFuncsHook::uninstall()
 // --------------------------------------------------
 // Auto register
 // --------------------------------------------------
-namespace {
+namespace
+{
     AutoHook<WindowsFuncsHook> _autoWindowsFuncsHook;
 }
