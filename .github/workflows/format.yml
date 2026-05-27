@@ -18,9 +18,9 @@ jobs:
       - name: Install clang-format
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang-format-18
+          sudo apt-get install -y clang-format
 
       - name: Check formatting
         run: |
           git ls-files '*.cpp' '*.hpp' '*.h' \
-          | xargs clang-format-18 --dry-run --Werror
+          | xargs clang-format --dry-run --Werror
