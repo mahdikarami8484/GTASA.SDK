@@ -2,7 +2,7 @@
 name:  Optimization & Enhancement
 about: Propose performance improvements, memory optimization, or safety enhancements
 title: '[Enhancement]: '
-labels: ['performance', 'optimization']
+labels: ['enhancement']
 ---
 
 ## Area of Improvement

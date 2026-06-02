@@ -2,7 +2,7 @@
 name:  Bug Report
 about: Report a crash, deadlock, or unexpected behavior in the SDK
 title: '[Bug]: '
-labels: ['bug', 'triage']
+labels: ['bug']
 ---
 
 ## Description
@@ -19,5 +19,6 @@ labels: ['bug', 'triage']
 
 ## Expected Behavior
 ## Actual Behavior & Logs
-```text
+~~~text
 [Paste your log output here]
+~~~

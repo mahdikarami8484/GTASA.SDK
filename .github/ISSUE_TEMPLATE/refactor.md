@@ -2,7 +2,7 @@
 name:  Code Refactoring
 about: Propose code cleanup, structural changes, or architectural improvements without altering behavior
 title: '[Refactor]: '
-labels: ['refactor', 'internal']
+labels: ['refactor']
 ---
 
 ## Current Situation
