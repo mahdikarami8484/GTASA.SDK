@@ -1,4 +1,5 @@
 #include "game_loop_hook.h"
+
 #include "core/game/game_functions.h"
 
 using namespace GTASA::SDK;

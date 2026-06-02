@@ -1,4 +1,5 @@
 #include "core/game/game_base.h"
+
 #include <Windows.h>
 
 namespace GTASA
@@ -11,8 +12,7 @@ namespace GTASA
 
         void GameBase::initialize()
         {
-            if (s_initialized)
-                return;
+            if (s_initialized) return;
 
             // base address of gta_sa.exe
             HMODULE hModule = GetModuleHandleA(nullptr);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/event/event_bus.h"
+
 #include <memory>
 
 namespace GTASA

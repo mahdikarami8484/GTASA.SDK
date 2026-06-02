@@ -10,6 +10,7 @@
 #pragma once
 
 #include "circular_buffer.hpp"
+
 #include <Windows.h>
 #include <condition_variable>
 #include <cstdarg>

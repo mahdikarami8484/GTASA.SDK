@@ -38,14 +38,12 @@ namespace Logging
         {
             std::lock_guard<std::mutex> lock(mutex);
 
-            if (full)
-                return false;
+            if (full) return false;
 
             buffer[tail] = item;
             tail = (tail + 1) % Size;
 
-            if (tail == head)
-                full = true;
+            if (tail == head) full = true;
 
             return true;
         }
@@ -59,8 +57,7 @@ namespace Logging
         {
             std::lock_guard<std::mutex> lock(mutex);
 
-            if (empty())
-                return false;
+            if (empty()) return false;
 
             out = buffer[head];
             head = (head + 1) % Size;

@@ -1,9 +1,8 @@
 #pragma once
 
+#include <detours.h>
 #include <vector>
 #include <windows.h>
-
-#include <detours.h>
 #pragma comment(lib, "detours.lib")
 
 struct HookEntry

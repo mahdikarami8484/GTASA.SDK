@@ -1,4 +1,5 @@
 #include "sdk_runtime.h"
+
 #include "core/game/game_base.h"
 #include "logging/logger.hpp"
 
@@ -27,8 +28,7 @@ SDKRuntime::~SDKRuntime()
 void SDKRuntime::init()
 {
     std::lock_guard<std::mutex> lock(m_mutex);
-    if (m_initialized)
-        return;
+    if (m_initialized) return;
 
     Logger::Instance().Start();
 
@@ -44,8 +44,7 @@ void SDKRuntime::init()
     LOG_INFO("[SDKRuntime] Installing hooks...");
     HookRegistry::instance().sort();
     for (auto& hook : HookRegistry::instance().getAll())
-        if (hook->isEnabled())
-            hook->install();
+        if (hook->isEnabled()) hook->install();
 
     LOG_INFO("[SDKRuntime] Hooks installed successfully.");
 
@@ -59,8 +58,7 @@ void SDKRuntime::shutdown()
 {
     {
         std::lock_guard<std::mutex> lock(m_mutex);
-        if (!m_initialized)
-            return;
+        if (!m_initialized) return;
 
         LOG_INFO("[SDKRuntime] Shutting down SDK Runtime...");
 

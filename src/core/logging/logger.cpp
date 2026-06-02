@@ -50,8 +50,7 @@ namespace Logging
     void Logger::enqueueMessage(const char* format, va_list args, LogLevel level, const char* file,
                                 uint16_t line)
     {
-        if (level < currentLevel)
-            return;
+        if (level < currentLevel) return;
 
         {
             std::lock_guard<std::mutex> lock(this->mutex);
@@ -80,10 +79,8 @@ namespace Logging
             std::unique_lock<std::mutex> lock(this->mutex);
             this->cv.wait(lock, [&] { return !this->logBuffer.empty() || !this->running; });
 
-            if (!this->running)
-                break;
-            if (this->logBuffer.empty())
-                continue;
+            if (!this->running) break;
+            if (this->logBuffer.empty()) continue;
 
             this->logBuffer.pop(log);
 
@@ -103,8 +100,7 @@ namespace Logging
     {
         std::string finalStr;
 
-        if (level < currentLevel)
-            return;
+        if (level < currentLevel) return;
 
         // Add log level prefix with color
         switch (level)
@@ -194,8 +190,7 @@ namespace Logging
             this->running = false;
             this->cv.notify_all();
         }
-        if (this->thread.joinable())
-            this->thread.join();
+        if (this->thread.joinable()) this->thread.join();
 
         FreeConsole();
     }

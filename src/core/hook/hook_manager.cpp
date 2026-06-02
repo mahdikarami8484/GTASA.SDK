@@ -1,4 +1,5 @@
 #include "hook_manager.h"
+
 #include <core/logging/logger.hpp>
 
 using namespace Logging;

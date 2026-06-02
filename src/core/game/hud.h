@@ -3,6 +3,7 @@
 #include "game_base.h"
 #include "game_functions.h"
 #include "offsets.h"
+
 #include <string>
 
 namespace GTASA

@@ -10,17 +10,13 @@ EventBus& EventBus::instance()
 
 void EventBus::add(std::unique_ptr<Script> script)
 {
-    if (!script)
-        return;
+    if (!script) return;
     m_scripts.emplace_back(std::move(script));
 }
 
 void EventBus::dispatch(std::shared_ptr<BaseEvent> event)
 {
-    if (!event)
-    {
-        return;
-    }
+    if (!event) return;
 
     for (auto& script : m_scripts)
     {
