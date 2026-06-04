@@ -1,5 +1,7 @@
 #include <windows.h>
+
 #include <commdlg.h>
+
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -131,7 +133,8 @@ int main()
 
     if (!launchSuspendedProcess(exePath, gameDir, pi))
     {
-        std::cout << "[-] Failed to start gta_sa.exe!\n";
+        std::wcout << L"[-] Failed to start process: " << exePath << L" (GetLastError="
+                   << GetLastError() << L")\n";
         std::cout << "[*] Press Enter to exit...\n";
         std::cin.get();
         return 1;
