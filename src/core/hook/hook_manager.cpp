@@ -1,4 +1,5 @@
 #include "hook_manager.h"
+
 #include <core/logging/logger.hpp>
 
 using namespace Logging;
@@ -9,15 +10,18 @@ HookManager& HookManager::instance()
     return instance;
 }
 
-void HookManager::addHook(void** target, void* detour) {
-    this->hooks.push_back({ target, detour });
+void HookManager::addHook(void** target, void* detour)
+{
+    this->hooks.push_back({target, detour});
 }
 
-void HookManager::enableHooks() {
+void HookManager::enableHooks()
+{
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
 
-    for (auto& hook : hooks) {
+    for (auto& hook : hooks)
+    {
         DetourAttach(hook.target, hook.detour);
     }
 
@@ -25,11 +29,13 @@ void HookManager::enableHooks() {
     LOG_INFO("[HookManager] hooks enabled.");
 }
 
-void HookManager::disableHooks() {
+void HookManager::disableHooks()
+{
     DetourTransactionBegin();
     DetourUpdateThread(GetCurrentThread());
 
-    for (auto& hook : hooks) {
+    for (auto& hook : hooks)
+    {
         DetourDetach(hook.target, hook.detour);
     }
 

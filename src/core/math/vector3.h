@@ -23,8 +23,7 @@ namespace GTASA::SDK
         Vector3 normalized() const
         {
             float len = length();
-            if (len == 0.0f)
-                return {};
+            if (len == 0.0f) return {};
             return {x / len, y / len, z / len};
         }
 

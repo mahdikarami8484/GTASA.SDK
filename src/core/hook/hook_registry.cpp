@@ -21,11 +21,6 @@ const std::vector<std::unique_ptr<IHook>>& GTASA::SDK::HookRegistry::getAll() co
 void GTASA::SDK::HookRegistry::sort()
 {
     std::sort(m_hooks.begin(), m_hooks.end(),
-        [](const std::unique_ptr<IHook>& a,
-            const std::unique_ptr<IHook>& b)
-        {
-            return a->Priority() < b->Priority();
-        });
+              [](const std::unique_ptr<IHook>& a, const std::unique_ptr<IHook>& b)
+              { return a->Priority() < b->Priority(); });
 }
-
-

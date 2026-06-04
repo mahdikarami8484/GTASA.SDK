@@ -1,4 +1,5 @@
 #include "windows_hook.h"
+
 #include "player_hook.h"
 
 using namespace GTASA::SDK;

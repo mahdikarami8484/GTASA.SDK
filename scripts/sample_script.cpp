@@ -1,3 +1,5 @@
+#include <string>
+
 #include "core/event/event_bus.h"
 #include "core/game/hud.h"
 #include "core/game/player_info.h"
@@ -6,7 +8,6 @@
 #include "core/script/script.h"
 #include "hooks/game_loop_hook.h"
 #include "hooks/player_hook.h"
-#include <string>
 
 using namespace Logging;
 
@@ -33,8 +34,7 @@ namespace GTASA
                     if ((GetAsyncKeyState(VK_F5) & 1))
                     {
                         std::unique_ptr<PlayerInfo> playerInfo = PlayerInfo::getLocal();
-                        if (!playerInfo)
-                            return;
+                        if (!playerInfo) return;
                         playerInfo->getPed()->setHealth(1000.0f);
                         playerInfo->getPed()->setArmor(1000.0f);
                         float hp = playerInfo->getPed()->getHealth();

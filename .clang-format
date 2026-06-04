@@ -9,7 +9,7 @@ ColumnLimit: 100
 BreakBeforeBraces: Allman
 
 AllowShortFunctionsOnASingleLine: Empty
-AllowShortIfStatementsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 
 PointerAlignment: Left
 
@@ -18,3 +18,17 @@ NamespaceIndentation: All
 AccessModifierOffset: -4
 
 SortIncludes: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^<Windows\.h>'
+    Priority: -1
+  - Regex: '^<windows\.h>'
+    Priority: -1
+  - Regex: '^<.*\.h>'
+    Priority: 1
+  - Regex: '^<[^.]+>$'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
+
+ReflowComments: false
