@@ -82,22 +82,6 @@ If you already cloned without `--recursive`, initialize the Detours submodule ma
 git submodule update --init --recursive
 ```
 
-## Configure The Game Output Path
-
-The build currently copies the generated DLL into the GTA:SA directory as `samp.dll` after every successful build:
-
-```cmake
-set(GTA_SA_PATH "E:/Grand Theft Auto - San Andreas - Copy/")
-
-add_custom_command(TARGET GTASA_SDK POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        $<TARGET_FILE:GTASA_SDK>
-        "${GTA_SA_PATH}/samp.dll"
-)
-```
-
-Before building, edit `CMakeLists.txt` and change `GTA_SA_PATH` to your local GTA:SA folder. If you do not want automatic deployment, remove or comment out the `add_custom_command` block and copy the DLL manually from the build output directory.
-
 ## Build With CMake
 
 From a Visual Studio Developer PowerShell or a terminal where MSVC tools are available:
