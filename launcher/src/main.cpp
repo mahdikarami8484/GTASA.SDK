@@ -1,9 +1,8 @@
+#include <windows.h>
 #include <commdlg.h>
 #include <filesystem>
 #include <iostream>
 #include <string>
-#include <windows.h>
-
 
 namespace GTASA::SDK::Launcher
 {
@@ -27,7 +26,7 @@ namespace GTASA::SDK::Launcher
         ofn.lStructSize = sizeof(ofn);
         ofn.hwndOwner = NULL;
         ofn.lpstrFile = szFile;
-        ofn.nMaxFile = sizeof(szFile);
+        ofn.nMaxFile = static_cast<DWORD>(_countof(szFile));
 
         ofn.lpstrFilter = L"Executable Files\0*.exe\0";
         ofn.nFilterIndex = 1;
@@ -54,9 +53,9 @@ namespace GTASA::SDK::Launcher
         HMODULE hKernel32 = GetModuleHandleW(L"kernel32.dll");
         if (!hKernel32) return false;
 
-        LPTHREAD_START_ROUTINE pLoadLibraryA =
+        LPTHREAD_START_ROUTINE pLoadLibraryW =
             reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcAddress(hKernel32, "LoadLibraryW"));
-        if (!pLoadLibraryA) return false;
+        if (!pLoadLibraryW) return false;
 
         const SIZE_T dllPathBytes = (dllPath.length() + 1) * sizeof(wchar_t);
         LPVOID allocatedMem = VirtualAllocEx(processHandle, nullptr, dllPathBytes,
@@ -73,7 +72,7 @@ namespace GTASA::SDK::Launcher
         }
 
         HANDLE remoteThread =
-            CreateRemoteThread(processHandle, nullptr, 0, pLoadLibraryA, allocatedMem, 0, nullptr);
+            CreateRemoteThread(processHandle, nullptr, 0, pLoadLibraryW, allocatedMem, 0, nullptr);
         if (!remoteThread)
         {
             VirtualFreeEx(processHandle, allocatedMem, 0, MEM_RELEASE);
