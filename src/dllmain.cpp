@@ -1,32 +1,30 @@
 #include "Windows.h"
 #include "core/sdk_thread.h"
 
-BOOL APIENTRY DllMain(HMODULE hModule,
-	DWORD reason,
-	LPVOID)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID)
 {
 
-	using namespace GTASA::SDK;
-	
-	switch (reason)
-	{
-		case DLL_PROCESS_ATTACH:
-			DisableThreadLibraryCalls(hModule);
-			
-			/* Create SDK Thread */
-			CreateThread(NULL, 0, SDKThread, NULL, 0, NULL);
+    using namespace GTASA::SDK;
 
-			break;
+    switch (reason)
+    {
+    case DLL_PROCESS_ATTACH:
+        DisableThreadLibraryCalls(hModule);
 
-		case DLL_PROCESS_DETACH:
+        /* Create SDK Thread */
+        CreateThread(NULL, 0, SDKThread, NULL, 0, NULL);
 
-			/* Shutdown sdk */
-			SDKRuntime::instance().shutdown();
+        break;
 
-			break;
-		default:
-			break;
-	}
+    case DLL_PROCESS_DETACH:
 
-	return true;
+        /* Shutdown sdk */
+        SDKRuntime::instance().shutdown();
+
+        break;
+    default:
+        break;
+    }
+
+    return true;
 }

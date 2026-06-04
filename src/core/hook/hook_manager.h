@@ -1,31 +1,32 @@
 #pragma once
 
-#include <windows.h>
-#include <vector>
-
 #include <detours.h>
+#include <vector>
+#include <windows.h>
 #pragma comment(lib, "detours.lib")
 
-struct HookEntry {
-	void** target;
-	void* detour;
+struct HookEntry
+{
+    void** target;
+    void* detour;
 };
 
-class HookManager {
+class HookManager
+{
 public:
-	static HookManager& instance();
+    static HookManager& instance();
 
-	void addHook(void** target, void* detour);
-	void enableHooks();
-	void disableHooks();
+    void addHook(void** target, void* detour);
+    void enableHooks();
+    void disableHooks();
 
-	HookManager(const HookManager&) = delete;
-	HookManager& operator=(const HookManager&) = delete;
-
-private:
-	HookManager() = default;
-	~HookManager() = default;
+    HookManager(const HookManager&) = delete;
+    HookManager& operator=(const HookManager&) = delete;
 
 private:
-	std::vector<HookEntry> hooks;
+    HookManager() = default;
+    ~HookManager() = default;
+
+private:
+    std::vector<HookEntry> hooks;
 };

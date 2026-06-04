@@ -1,7 +1,7 @@
 /**
  * @file circular_buffer.hpp
  * @brief Thread-safe circular buffer implementation
- * 
+ *
  * This file provides a template-based circular buffer with thread-safe
  * operations for producer-consumer scenarios.
  */
@@ -11,79 +11,84 @@
 #include <array>
 #include <mutex>
 
-namespace Logging {
-
-/**
- * @brief Thread-safe circular buffer for fixed-size queues
- * 
- * A circular buffer (ring buffer) that provides thread-safe push and pop
- * operations. When full, push operations will fail rather than overwrite
- * existing data.
- * 
- * @tparam T The type of elements stored in the buffer
- * @tparam Size The maximum number of elements the buffer can hold
- */
-template <typename T, size_t Size>
-class CircularBuffer {
-public:
-    CircularBuffer() : head(0), tail(0), full(false) {}
+namespace Logging
+{
 
     /**
-     * @brief Push an item to the buffer
-     * @param item The item to push
-     * @return true if successful, false if buffer is full
+     * @brief Thread-safe circular buffer for fixed-size queues
+     *
+     * A circular buffer (ring buffer) that provides thread-safe push and pop
+     * operations. When full, push operations will fail rather than overwrite
+     * existing data.
+     *
+     * @tparam T The type of elements stored in the buffer
+     * @tparam Size The maximum number of elements the buffer can hold
      */
-    bool push(const T& item) {
-        std::lock_guard<std::mutex> lock(mutex);
+    template <typename T, size_t Size> class CircularBuffer
+    {
+    public:
+        CircularBuffer() : head(0), tail(0), full(false) {}
 
-        if (full) return false;
+        /**
+         * @brief Push an item to the buffer
+         * @param item The item to push
+         * @return true if successful, false if buffer is full
+         */
+        bool push(const T& item)
+        {
+            std::lock_guard<std::mutex> lock(mutex);
 
-        buffer[tail] = item;
-        tail = (tail + 1) % Size;
+            if (full) return false;
 
-        if (tail == head) full = true;
+            buffer[tail] = item;
+            tail = (tail + 1) % Size;
 
-        return true;
-    }
+            if (tail == head) full = true;
 
-    /**
-     * @brief Pop an item from the buffer
-     * @param out Reference to store the popped item
-     * @return true if successful, false if buffer is empty
-     */
-    bool pop(T& out) {
-        std::lock_guard<std::mutex> lock(mutex);
+            return true;
+        }
 
-        if (empty()) return false;
+        /**
+         * @brief Pop an item from the buffer
+         * @param out Reference to store the popped item
+         * @return true if successful, false if buffer is empty
+         */
+        bool pop(T& out)
+        {
+            std::lock_guard<std::mutex> lock(mutex);
 
-        out = buffer[head];
-        head = (head + 1) % Size;
-        full = false;
-        return true;
-    }
+            if (empty()) return false;
 
-    /**
-     * @brief Check if the buffer is empty
-     * @return true if empty, false otherwise
-     */
-    bool empty() const {
-        return (!full && head == tail);
-    }
+            out = buffer[head];
+            head = (head + 1) % Size;
+            full = false;
+            return true;
+        }
 
-    /**
-     * @brief Check if the buffer is full
-     * @return true if full, false otherwise
-     */
-    bool isFull() const {
-        return full;
-    }
+        /**
+         * @brief Check if the buffer is empty
+         * @return true if empty, false otherwise
+         */
+        bool empty() const
+        {
+            return (!full && head == tail);
+        }
 
-private:
-    std::array<T, Size> buffer;
-    size_t head;
-    size_t tail;
-    bool full;
-    mutable std::mutex mutex;
-};
+        /**
+         * @brief Check if the buffer is full
+         * @return true if full, false otherwise
+         */
+        bool isFull() const
+        {
+            return full;
+        }
+
+    private:
+        std::array<T, Size> buffer;
+        size_t head;
+        size_t tail;
+        bool full;
+        mutable std::mutex mutex;
+    };
 
 } // namespace Logging

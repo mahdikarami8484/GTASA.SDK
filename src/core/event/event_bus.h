@@ -1,15 +1,19 @@
 #pragma once
 
-#include <unordered_map>
-#include <vector>
-#include "memory"
 #include "base_event.h"
 #include "core/script/script.h"
+#include "memory"
 
-namespace GTASA {
-    namespace SDK {
+#include <unordered_map>
+#include <vector>
 
-        class EventBus {
+namespace GTASA
+{
+    namespace SDK
+    {
+
+        class EventBus
+        {
         public:
             static EventBus& instance();
 
@@ -30,5 +34,5 @@ namespace GTASA {
             std::vector<std::unique_ptr<Script>> m_scripts;
         };
 
-    }
-}
+    } // namespace SDK
+} // namespace GTASA
