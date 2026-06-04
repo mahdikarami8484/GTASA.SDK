@@ -11,11 +11,12 @@
 
 #include <Windows.h>
 
-#include "circular_buffer.hpp"
 #include <condition_variable>
 #include <cstdarg>
 #include <mutex>
 #include <thread>
+
+#include "circular_buffer.hpp"
 
 namespace Logging
 {
