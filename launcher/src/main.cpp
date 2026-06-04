@@ -1,26 +1,27 @@
+#include <windows.h>
+#include <commdlg.h>
 #include <filesystem>
 #include <iostream>
 #include <string>
 
-#include <windows.h>
+namespace GTASA::SDK::Launcher
+{
 
-#pragma comment(lib, "user32.lib")
-
-namespace GTASA::SDK::Launcher {
-
-    constexpr const char* kDllName = "GTASA_SDK.dll";
+    constexpr const wchar_t* kDllName = L"GTASA_SDK.dll";
 
     std::filesystem::path getCurrentDirectoryPath()
     {
-        char currentDir[MAX_PATH] = {0};
-        GetCurrentDirectoryA(MAX_PATH, currentDir);
-        return std::filesystem::path(currentDir);
+        wchar_t exePath[MAX_PATH] = {0};
+        const DWORD len = GetModuleFileNameW(nullptr, exePath, MAX_PATH);
+        if (len == 0 || len == MAX_PATH)
+            return std::filesystem::current_path();
+        return std::filesystem::path(exePath).parent_path();
     }
 
-    std::string openBrowser()
+    std::wstring openBrowser()
     {
-        OPENFILENAMEA ofn;
-        char szFile[260] = {0};
+        OPENFILENAMEW ofn;
+        wchar_t szFile[260] = {0};
 
         ZeroMemory(&ofn, sizeof(ofn));
         ofn.lStructSize = sizeof(ofn);
@@ -28,88 +29,105 @@ namespace GTASA::SDK::Launcher {
         ofn.lpstrFile = szFile;
         ofn.nMaxFile = sizeof(szFile);
 
-        ofn.lpstrFilter = "Executable Files\0*.exe\0";
+        ofn.lpstrFilter = L"Executable Files\0*.exe\0";
         ofn.nFilterIndex = 1;
         ofn.lpstrFileTitle = NULL;
         ofn.nMaxFileTitle = 0;
         ofn.lpstrInitialDir = NULL;
         ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-        if (GetOpenFileNameA(&ofn) == TRUE)
-            return std::string(szFile);
+        if (GetOpenFileNameW(&ofn) == TRUE)
+            return std::wstring(szFile);
 
-        return std::string();
+        return std::wstring();
     }
 
-    bool launchSuspendedProcess(const std::string& exePath, const std::string& gameDir,
-        PROCESS_INFORMATION& processInfo)
+    bool launchSuspendedProcess(const std::wstring& exePath, const std::wstring& gameDir,
+                                PROCESS_INFORMATION& processInfo)
     {
-        STARTUPINFOA startupInfo = {sizeof(startupInfo)};
-        return CreateProcessA(exePath.c_str(), NULL, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL,
-            gameDir.c_str(), &startupInfo, &processInfo) == TRUE;
+        STARTUPINFOW startupInfo = {sizeof(startupInfo)};
+        return CreateProcessW(exePath.c_str(), NULL, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL,
+                              gameDir.c_str(), &startupInfo, &processInfo) == TRUE;
     }
 
-    bool injectDll(HANDLE processHandle, const std::string& dllPath)
+    bool injectDll(HANDLE processHandle, const std::wstring& dllPath)
     {
-        LPVOID allocatedMem = VirtualAllocEx(processHandle, nullptr, dllPath.length() + 1,
-            MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+        HMODULE hKernel32 = GetModuleHandleW(L"kernel32.dll");
+        if (!hKernel32)
+            return false;
+
+        LPTHREAD_START_ROUTINE pLoadLibraryA =
+            reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcAddress(hKernel32, "LoadLibraryW"));
+        if (!pLoadLibraryA)
+            return false;
+
+        const SIZE_T dllPathBytes = (dllPath.length() + 1) * sizeof(wchar_t);
+        LPVOID allocatedMem = VirtualAllocEx(processHandle, nullptr, dllPathBytes,
+                                             MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
         if (!allocatedMem)
             return false;
 
         SIZE_T bytesWritten = 0;
-        if (!WriteProcessMemory(processHandle, allocatedMem, dllPath.c_str(), dllPath.length() + 1,
-                                    &bytesWritten) || bytesWritten != dllPath.length() + 1)
+        if (!WriteProcessMemory(processHandle, allocatedMem, dllPath.c_str(), dllPathBytes,
+                                &bytesWritten) ||
+            bytesWritten != dllPathBytes)
         {
             VirtualFreeEx(processHandle, allocatedMem, 0, MEM_RELEASE);
             return false;
         }
 
-        HANDLE remoteThread = CreateRemoteThread(processHandle, nullptr, 0,
-            reinterpret_cast<LPTHREAD_START_ROUTINE>(LoadLibraryA), allocatedMem, 0, nullptr);
+        HANDLE remoteThread =
+            CreateRemoteThread(processHandle, nullptr, 0, pLoadLibraryA, allocatedMem, 0, nullptr);
         if (!remoteThread)
         {
             VirtualFreeEx(processHandle, allocatedMem, 0, MEM_RELEASE);
             return false;
         }
 
-        WaitForSingleObject(remoteThread, INFINITE);
+        const DWORD waitResult = WaitForSingleObject(remoteThread, INFINITE);
+        DWORD remoteExitCode = 0;
+        const bool gotExitCode = (waitResult == WAIT_OBJECT_0) &&
+                                 (GetExitCodeThread(remoteThread, &remoteExitCode) == TRUE);
         CloseHandle(remoteThread);
         VirtualFreeEx(processHandle, allocatedMem, 0, MEM_RELEASE);
-        return true;
+        return gotExitCode && (remoteExitCode != 0);
     }
-}
+} // namespace GTASA::SDK::Launcher
 
 using namespace GTASA::SDK::Launcher;
 
 int main()
 {
     auto currentDir = getCurrentDirectoryPath();
-    std::string dllPath = (currentDir / kDllName).string();
+    std::wstring dllPath = (currentDir / kDllName).wstring();
 
     std::cout << "[*] Welcome to the Custom Launcher!\n";
 
-    if (!std::filesystem::exists(dllPath))
+    if (!std::filesystem::exists(std::filesystem::path(dllPath)))
     {
-        std::cout << "[-] ERROR: DLL file not found at: " << dllPath << "\n";
+        std::wcout << L"[-] ERROR: DLL file not found at: " << dllPath << L"\n";
         std::cout << "[*] Please make sure the DLL is in the correct directory.\n";
-        system("pause");
+        std::cout << "[*] Press Enter to exit...\n";
+        std::cin.get();
         return 1;
     }
 
-    std::cout << "[+] Excellent! DLL found successfully at: " << dllPath << "\n";
+    std::wcout << L"[+] Excellent! DLL found successfully at: " << dllPath << L"\n";
 
     std::cout << "[*] Please select the GTA San Andreas executable (gta_sa.exe) to launch.\n";
-    std::string exePath = openBrowser();
+    std::wstring exePath = openBrowser();
 
     if (exePath.empty())
     {
         std::cout << "[-] Selection canceled.\n";
+        std::cout << "[*] Press Enter to exit...\n";
+        std::cin.get();
         return 1;
     }
 
-    std::string gameDir = exePath.substr(0, exePath.find_last_of("\\/"));
+    std::wstring gameDir = std::filesystem::path(exePath).parent_path().wstring();
 
-    std::cout << "[*] Selected file path: " << exePath << std::endl;
+    std::wcout << L"[*] Selected file path: " << exePath << std::endl;
 
     std::cout << "[*] Starting Custom Launcher (Suspended Mode)...\n";
 
@@ -119,7 +137,8 @@ int main()
     if (!launchSuspendedProcess(exePath, gameDir, pi))
     {
         std::cout << "[-] Failed to start gta_sa.exe!\n";
-        system("pause");
+        std::cout << "[*] Press Enter to exit...\n";
+        std::cin.get();
         return 1;
     }
 
@@ -130,12 +149,12 @@ int main()
         TerminateProcess(pi.hProcess, 1);
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
-        system("pause");
+        std::cout << "[*] Press Enter to exit...\n";
+        std::cin.get();
         return 1;
     }
 
     std::cout << "[+] DLL Injected.\n";
-
 
     std::cout << "[*] Waking up the game...\n";
     ResumeThread(pi.hThread);
