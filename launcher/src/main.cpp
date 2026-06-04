@@ -56,7 +56,7 @@ namespace GTASA::SDK::Launcher {
         if (!allocatedMem)
             return false;
 
-        size_t bytesWritten = 0;
+        SIZE_T bytesWritten = 0;
         if (!WriteProcessMemory(processHandle, allocatedMem, dllPath.c_str(), dllPath.length() + 1,
                                     &bytesWritten) || bytesWritten != dllPath.length() + 1)
         {
