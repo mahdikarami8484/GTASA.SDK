@@ -10,10 +10,25 @@ file(GLOB_RECURSE SDK_SOURCES CONFIGURE_DEPENDS
     src/*.cpp
 )
 
-# Scripts 
+# Scripts
 file(GLOB_RECURSE SCRIPTS_SOURCES CONFIGURE_DEPENDS
     scripts/*.cpp
 )
+
+# Output directories
+set(OUTPUT_DIR "${CMAKE_SOURCE_DIR}/out")
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIR}")
+
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${OUTPUT_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIR}")
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${OUTPUT_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${OUTPUT_DIR}")
 
 # Make Shared library
 add_library(GTASA_SDK SHARED
@@ -39,17 +54,21 @@ target_include_directories(GTASA_SDK PRIVATE
     libs/Detours/src
 )
 
+# Launcher
+add_subdirectory(launcher)
+
 target_link_libraries(GTASA_SDK PRIVATE detours)
 
-# GTA SA Path
-set(GTA_SA_PATH "${GTA_SA_PATH}" CACHE PATH "Path to GTA San Andreas" FORCE)
 
-if(NOT GTA_SA_PATH)
-    message(FATAL_ERROR "GTA_SA_PATH must be specified with -DGTA_SA_PATH=\"...\"")
-endif()
+# # GTA SA Path
+# set(GTA_SA_PATH "${GTA_SA_PATH}" CACHE PATH "Path to GTA San Andreas" FORCE)
 
-add_custom_command(TARGET GTASA_SDK POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        $<TARGET_FILE:GTASA_SDK>
-        "${GTA_SA_PATH}/samp.dll"
-)
+# if(NOT GTA_SA_PATH)
+#     message(FATAL_ERROR "GTA_SA_PATH must be specified with -DGTA_SA_PATH=\"...\"")
+# endif()
+
+# add_custom_command(TARGET GTASA_SDK POST_BUILD
+#     COMMAND ${CMAKE_COMMAND} -E copy
+#         $<TARGET_FILE:GTASA_SDK>
+#         "${GTA_SA_PATH}/samp.dll"
+# )
