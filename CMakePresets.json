@@ -4,12 +4,8 @@
     {
       "name": "msvc-x86",
       "displayName": "MSVC x86",
-      "generator": "Visual Studio 17 2022",
       "architecture": "Win32",
-      "binaryDir": "${sourceDir}/build",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "binaryDir": "${sourceDir}/build"
     }
   ]
 }
