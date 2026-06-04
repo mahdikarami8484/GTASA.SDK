@@ -171,7 +171,7 @@ This project integrates or depends on the following third-party libraries:
 
 - **Microsoft Detours** - Used for binary function hooking. Licensed under the MIT License.
   - Copyright (c) Microsoft Corporation. All rights reserved.
-  - Location within repository: `libs/detours/`
+  - Location within repository: `libs/Detours/`
 
 ## License
 
