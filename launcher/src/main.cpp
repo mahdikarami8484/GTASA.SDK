@@ -13,10 +13,15 @@ namespace GTASA::SDK::Launcher
 
     std::filesystem::path getCurrentDirectoryPath()
     {
-        wchar_t exePath[MAX_PATH] = {0};
-        const DWORD len = GetModuleFileNameW(nullptr, exePath, MAX_PATH);
-        if (len == 0 || len == MAX_PATH) return std::filesystem::current_path();
-        return std::filesystem::path(exePath).parent_path();
+        std::wstring exePath(32767, L'\0');
+        const DWORD len = GetModuleFileNameW(nullptr, exePath.data(), exePath.size());
+        if (len > 0 && len < exePath.size())
+        {
+            exePath.resize(len);
+            return std::filesystem::path(exePath).parent_path();
+        }
+
+        return std::filesystem::current_path();
     }
 
     std::wstring openBrowser()
