@@ -1,8 +1,9 @@
-#include <windows.h>
 #include <commdlg.h>
 #include <filesystem>
 #include <iostream>
 #include <string>
+#include <windows.h>
+
 
 namespace GTASA::SDK::Launcher
 {
@@ -13,8 +14,7 @@ namespace GTASA::SDK::Launcher
     {
         wchar_t exePath[MAX_PATH] = {0};
         const DWORD len = GetModuleFileNameW(nullptr, exePath, MAX_PATH);
-        if (len == 0 || len == MAX_PATH)
-            return std::filesystem::current_path();
+        if (len == 0 || len == MAX_PATH) return std::filesystem::current_path();
         return std::filesystem::path(exePath).parent_path();
     }
 
@@ -36,8 +36,7 @@ namespace GTASA::SDK::Launcher
         ofn.lpstrInitialDir = NULL;
         ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
-        if (GetOpenFileNameW(&ofn) == TRUE)
-            return std::wstring(szFile);
+        if (GetOpenFileNameW(&ofn) == TRUE) return std::wstring(szFile);
 
         return std::wstring();
     }
@@ -53,19 +52,16 @@ namespace GTASA::SDK::Launcher
     bool injectDll(HANDLE processHandle, const std::wstring& dllPath)
     {
         HMODULE hKernel32 = GetModuleHandleW(L"kernel32.dll");
-        if (!hKernel32)
-            return false;
+        if (!hKernel32) return false;
 
         LPTHREAD_START_ROUTINE pLoadLibraryA =
             reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcAddress(hKernel32, "LoadLibraryW"));
-        if (!pLoadLibraryA)
-            return false;
+        if (!pLoadLibraryA) return false;
 
         const SIZE_T dllPathBytes = (dllPath.length() + 1) * sizeof(wchar_t);
         LPVOID allocatedMem = VirtualAllocEx(processHandle, nullptr, dllPathBytes,
                                              MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-        if (!allocatedMem)
-            return false;
+        if (!allocatedMem) return false;
 
         SIZE_T bytesWritten = 0;
         if (!WriteProcessMemory(processHandle, allocatedMem, dllPath.c_str(), dllPathBytes,
