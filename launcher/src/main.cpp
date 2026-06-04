@@ -81,7 +81,7 @@ namespace GTASA::SDK::Launcher
             return false;
         }
 
-        const DWORD waitResult = WaitForSingleObject(remoteThread, INFINITE);
+        const DWORD waitResult = WaitForSingleObject(remoteThread, 15000); // Wait up to 15 seconds
         DWORD remoteExitCode = 0;
         const bool gotExitCode = (waitResult == WAIT_OBJECT_0) &&
                                  (GetExitCodeThread(remoteThread, &remoteExitCode) == TRUE);
