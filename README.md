@@ -165,6 +165,14 @@ Place new script files under `scripts/`. CMake automatically includes `scripts/*
 - Some hooks are experimental and may be incomplete or disabled in code.
 - Keep reverse engineering work educational, local, and respectful of software licenses and online service rules.
 
+## Third-Party Components
+
+This project integrates or depends on the following third-party libraries:
+
+- **Microsoft Detours** - Used for binary function hooking. Licensed under the MIT License.
+  - Copyright (c) Microsoft Corporation. All rights reserved.
+  - Location within repository: `libs/detours/`
+
 ## License
 
 GTASA.SDK is licensed under the GNU General Public License, version 3
