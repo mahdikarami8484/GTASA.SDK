@@ -3,13 +3,16 @@
 #include "memory"
 #include "ped.h"
 
-namespace GTASA {
-    namespace SDK {
-        class PlayerInfo {
-            private:
+namespace GTASA
+{
+    namespace SDK
+    {
+        class PlayerInfo
+        {
+        private:
             uintptr_t m_ptr;
 
-            public:
+        public:
             explicit PlayerInfo(uintptr_t ptr) : m_ptr(ptr) {}
 
             static std::unique_ptr<PlayerInfo> getLocal();
@@ -25,8 +28,8 @@ namespace GTASA {
             int getWantedLevel() const;
             void setWantedLevel(uint8_t amount, bool choas = true);
 
-            private:
-            uintptr_t getChaosAddr() const; 
+        private:
+            uintptr_t getChaosAddr() const;
         };
-    }
-}
+    } // namespace SDK
+} // namespace GTASA

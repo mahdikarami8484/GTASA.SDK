@@ -2,25 +2,30 @@
 
 #include "string"
 
-namespace GTASA {
-	namespace SDK {
-	
-		class IHook
-		{
-		public:
-			virtual ~IHook() = default;
+namespace GTASA
+{
+    namespace SDK
+    {
 
-			/* Meta */
-			virtual const char* getName() const = 0;
-			virtual int Priority() const = 0;
+        class IHook
+        {
+        public:
+            virtual ~IHook() = default;
 
-			/* State */
-			virtual bool isEnabled() const { return true; }
+            /* Meta */
+            virtual const char* getName() const = 0;
+            virtual int Priority() const = 0;
 
-			/* Lifecycle */
-			virtual void install() = 0;
-			virtual void uninstall() = 0;
-		};
-		
-	}
-}
+            /* State */
+            virtual bool isEnabled() const
+            {
+                return true;
+            }
+
+            /* Lifecycle */
+            virtual void install() = 0;
+            virtual void uninstall() = 0;
+        };
+
+    } // namespace SDK
+} // namespace GTASA
