@@ -1,9 +1,9 @@
 #pragma once
+#include <algorithm>
+
 #include "i_hook.h"
 #include "memory"
 #include "vector"
-
-#include <algorithm>
 
 namespace GTASA
 {

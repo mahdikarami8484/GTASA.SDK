@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/sdk_runtime.h"
-
 #include <Windows.h>
+
+#include "core/sdk_runtime.h"
 
 DWORD WINAPI SDKThread(LPVOID)
 {

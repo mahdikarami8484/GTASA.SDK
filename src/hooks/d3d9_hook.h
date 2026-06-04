@@ -1,13 +1,13 @@
 #pragma once
 
+#include <d3d9.h>
+
 #include "core/game/game_base.h"
 #include "core/hook/auto_hook.h"
 #include "core/hook/hook_manager.h"
 #include "core/hook/i_hook.h"
 #include "core/logging/logger.hpp"
 #include "core/sdk_runtime.h"
-
-#include <d3d9.h>
 #pragma comment(lib, "d3d9.lib")
 
 namespace GTASA

@@ -1,9 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include "hook_registry.h"
 #include "i_hook.h"
-
-#include <memory>
 
 namespace GTASA
 {

@@ -1,6 +1,6 @@
-#include "core/game/game_base.h"
-
 #include <Windows.h>
+
+#include "core/game/game_base.h"
 
 namespace GTASA
 {

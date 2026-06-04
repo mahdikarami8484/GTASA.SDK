@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 #include "core/event/event_bus.h"
 #include "core/game/hud.h"
 #include "core/game/player_info.h"
@@ -8,8 +10,6 @@
 #include "core/script/script.h"
 #include "hooks/game_loop_hook.h"
 #include "hooks/player_hook.h"
-
-#include <string>
 
 using namespace Logging;
 

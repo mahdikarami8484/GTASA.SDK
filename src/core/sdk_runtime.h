@@ -1,13 +1,13 @@
 #pragma once
+#include <algorithm>
+#include <mutex>
+#include <vector>
+
 #include "event/event_bus.h"
 #include "hook/hook_manager.h"
 #include "hook/hook_registry.h"
 #include "memory"
 #include "script/script.h"
-
-#include <algorithm>
-#include <mutex>
-#include <vector>
 
 namespace GTASA
 {

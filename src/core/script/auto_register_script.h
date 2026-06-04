@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/event/event_bus.h"
-
 #include <memory>
+
+#include "core/event/event_bus.h"
 
 namespace GTASA
 {

@@ -9,13 +9,14 @@
 
 #pragma once
 
-#include "circular_buffer.hpp"
-
 #include <Windows.h>
+
 #include <condition_variable>
 #include <cstdarg>
 #include <mutex>
 #include <thread>
+
+#include "circular_buffer.hpp"
 
 namespace Logging
 {
