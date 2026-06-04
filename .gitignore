@@ -1,7 +1,14 @@
+# Ignore Visual Studio temporary files
 .vs/
 *.vcxproj.user
 *.vcxproj
 *.vcxproj.filters
+
+# Ignore Visual Studio Code settings
+.vscode
+
+# Ignore build output directories
 build_codeql_detected_source_root
 build
-.vscode
+out
+
