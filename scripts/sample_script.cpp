@@ -8,7 +8,6 @@
 #include "core/script/script.h"
 #include "hooks/game_loop_hook.h"
 #include "hooks/player_hook.h"
-
 #include <string>
 
 using namespace Logging;

@@ -2,7 +2,6 @@
 
 #include "core/math/vector3.h"
 #include "offsets.h"
-
 #include <memory>
 
 namespace GTASA

@@ -4,7 +4,6 @@
 #include "hook/hook_registry.h"
 #include "memory"
 #include "script/script.h"
-
 #include <algorithm>
 #include <mutex>
 #include <vector>

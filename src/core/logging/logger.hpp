@@ -9,9 +9,9 @@
 
 #pragma once
 
-#include "circular_buffer.hpp"
-
 #include <Windows.h>
+
+#include "circular_buffer.hpp"
 #include <condition_variable>
 #include <cstdarg>
 #include <mutex>
