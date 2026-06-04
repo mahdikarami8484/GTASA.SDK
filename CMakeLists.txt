@@ -57,18 +57,7 @@ target_include_directories(GTASA_SDK PRIVATE
 # Launcher
 add_subdirectory(launcher)
 
+
+
 target_link_libraries(GTASA_SDK PRIVATE detours)
 
-
-# # GTA SA Path
-# set(GTA_SA_PATH "${GTA_SA_PATH}" CACHE PATH "Path to GTA San Andreas" FORCE)
-
-# if(NOT GTA_SA_PATH)
-#     message(FATAL_ERROR "GTA_SA_PATH must be specified with -DGTA_SA_PATH=\"...\"")
-# endif()
-
-# add_custom_command(TARGET GTASA_SDK POST_BUILD
-#     COMMAND ${CMAKE_COMMAND} -E copy
-#         $<TARGET_FILE:GTASA_SDK>
-#         "${GTA_SA_PATH}/samp.dll"
-# )
