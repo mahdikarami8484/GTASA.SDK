@@ -20,15 +20,15 @@ AccessModifierOffset: -4
 SortIncludes: true
 IncludeBlocks: Regroup
 IncludeCategories:
-  - Regex:           '^<Windows\.h>'
-    Priority:        -1
-  - Regex:           '^<windows\.h>'
-    Priority:        -1
-  - Regex:           '^<[a-z]+\.h>'
-    Priority:        0
-  - Regex:           '^<std.*'
-    Priority:        1
-  - Regex:           '.*'
-    Priority:        10
+  - Regex: '^<Windows\.h>'
+    Priority: -1
+  - Regex: '^<windows\.h>'
+    Priority: -1
+  - Regex: '^<.*\.h>'
+    Priority: 1
+  - Regex: '^<[^.]+>$'
+    Priority: 2
+  - Regex: '.*'
+    Priority: 3
 
 ReflowComments: false
