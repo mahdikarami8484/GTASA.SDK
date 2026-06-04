@@ -14,3 +14,7 @@ add_executable(launcher
 target_include_directories(launcher PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+target_link_libraries(launcher PRIVATE
+     Comdlg32
+ )
