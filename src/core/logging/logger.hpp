@@ -101,13 +101,15 @@ namespace Logging
         bool running = false;
     };
 
+} // namespace Logging
+
 /**
  * @brief Macro for logging informational messages with file and line information
  * @param msg Format string (printf-style)
  * @param ... Variable arguments for format string
  */
 #define LOG_INFO(msg, ...)                                                                         \
-    Logger::Instance().Log(LogLevel::Info, __FILE__, __LINE__, msg, ##__VA_ARGS__)
+    Logging::Logger::Instance().Log(Logging::LogLevel::Info, __FILE__, __LINE__, msg, ##__VA_ARGS__)
 
 /**
  * @brief Macro for logging warning messages with file and line information
@@ -115,7 +117,8 @@ namespace Logging
  * @param ... Variable arguments for format string
  */
 #define LOG_WARNING(msg, ...)                                                                      \
-    Logger::Instance().Log(LogLevel::Warning, __FILE__, __LINE__, msg, ##__VA_ARGS__)
+    Logging::Logger::Instance().Log(Logging::LogLevel::Warning, __FILE__, __LINE__, msg,           \
+                                    ##__VA_ARGS__)
 
 /**
  * @brief Macro for logging error messages with file and line information
@@ -123,6 +126,5 @@ namespace Logging
  * @param ... Variable arguments for format string
  */
 #define LOG_ERROR(msg, ...)                                                                        \
-    Logger::Instance().Log(LogLevel::Error, __FILE__, __LINE__, msg, ##__VA_ARGS__)
-
-} // namespace Logging
+    Logging::Logger::Instance().Log(Logging::LogLevel::Error, __FILE__, __LINE__, msg,             \
+                                    ##__VA_ARGS__)
