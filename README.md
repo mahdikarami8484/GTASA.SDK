@@ -57,12 +57,10 @@ GTASA.SDK is an in-development C++20 SDK for Grand Theft Auto: San Andreas. The 
 ## Requirements
 
 - Windows
-- Visual Studio 2022 with the C++ desktop workload
+- Visual Studio (2019 or later recommended) with the "Desktop development with C++" workload
 - CMake 3.20 or newer
 - Git with submodule support
-- Microsoft DirectX SDK (June 2010)
-  - The current `CMakeLists.txt` expects headers at:
-    `C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include`
+- Microsoft DirectX SDK (June 2010) (The installer automatically configures the `DXSDK_DIR` environment variable, which is used by CMake)
 - A GTA:SA 1.0 US-style executable/layout compatible with the offsets used in `src/core/game/offsets.h` and the hook addresses in `src/hooks/`
 
 Because GTA:SA is a 32-bit game, the project must be built as Win32/x86. The included CMake preset already targets `Win32`.
@@ -84,7 +82,7 @@ git submodule update --init --recursive
 
 ## Build With CMake
 
-From a Visual Studio Developer PowerShell or a terminal where MSVC tools are available:
+From a Visual Studio Developer PowerShell, Developer Command Prompt, or any terminal where MSVC tools are configured:
 
 ```powershell
 cmake --preset msvc-x86
@@ -93,10 +91,12 @@ cmake --build build --config Debug
 
 The preset uses:
 
-- Generator: `Visual Studio 17 2022`
+- Generator: Auto-detected by CMake (uses your active MSVC/Visual Studio version)
 - Architecture: `Win32`
 - Build directory: `build/`
 - C++ standard: C++20
+
+Once the build finishes successfully, all compiled outputs (such as launcher.exe and GTASA_SDK.dll) will be generated inside the build output directory (e.g., out/Debug/).
 
 ## Build With Visual Studio
 
@@ -170,4 +170,4 @@ versions of it, those distributed works must be licensed under GPLv3
 and the corresponding source must be made available under the license
 terms.
 
-See the LICENSE file for the full license text.
+See the [LICENSE](https://github.com/mahdikarami8484/GTASA.SDK/blob/master/LICENSE) file for the full license text.
