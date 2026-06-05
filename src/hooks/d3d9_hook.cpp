@@ -1,7 +1,6 @@
 #include "d3d9_hook.h"
 
 using namespace GTASA::SDK;
-using namespace Logging;
 
 namespace
 {

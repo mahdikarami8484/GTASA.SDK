@@ -2,8 +2,6 @@
 
 #include <core/logging/logger.hpp>
 
-using namespace Logging;
-
 HookManager& HookManager::instance()
 {
     static HookManager instance;

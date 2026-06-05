@@ -6,8 +6,6 @@
 #include "hooks/d3d9_hook.h"
 #include "hooks/windows_hook.h"
 
-using namespace Logging;
-
 namespace GTASA
 {
     namespace SDK

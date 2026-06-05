@@ -1,7 +1,6 @@
 #include "player_hook.h"
 
 using namespace GTASA::SDK;
-using namespace Logging;
 
 namespace
 {

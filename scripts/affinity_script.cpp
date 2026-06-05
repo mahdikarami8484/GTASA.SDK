@@ -4,8 +4,6 @@
 #include "core/script/script.h"
 #include "core/sdk_runtime.h"
 
-using namespace Logging;
-
 namespace GTASA
 {
     namespace SDK

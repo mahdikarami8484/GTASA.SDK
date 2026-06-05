@@ -4,7 +4,6 @@
 #include "logging/logger.hpp"
 
 using namespace GTASA::SDK;
-using namespace Logging;
 
 SDKRuntime& SDKRuntime::instance()
 {
@@ -30,7 +29,7 @@ void SDKRuntime::init()
     std::lock_guard<std::mutex> lock(m_mutex);
     if (m_initialized) return;
 
-    Logger::Instance().Start();
+    Logging::Logger::Instance().Start();
 
     LOG_INFO("[SDKRuntime] Initializing SDK Runtime...");
 
@@ -73,5 +72,5 @@ void SDKRuntime::shutdown()
     }
 
     // Stop logger after releasing the lock to avoid any potential issues
-    Logger::Instance().Stop();
+    Logging::Logger::Instance().Stop();
 }

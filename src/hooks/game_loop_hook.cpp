@@ -3,7 +3,6 @@
 #include "core/game/game_functions.h"
 
 using namespace GTASA::SDK;
-using namespace Logging;
 using namespace GTASA::SDK::Internal::Functions::System;
 
 namespace
