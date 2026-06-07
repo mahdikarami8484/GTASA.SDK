@@ -1,6 +1,7 @@
 #include "sdk_runtime.h"
 
 #include "core/game/game_base.h"
+#include "core/game/version_manager.h"
 #include "logging/logger.hpp"
 
 using namespace GTASA::SDK;
@@ -32,6 +33,13 @@ void SDKRuntime::init()
     Logging::Logger::Instance().Start();
 
     LOG_INFO("[SDKRuntime] Initializing SDK Runtime...");
+
+    if (!VersionManager::instance().initialize())
+    {
+        LOG_ERROR(
+            "[SDKRuntime] Aborting initialization to prevent crashes on unknown game version.");
+        return;
+    }
 
     GameBase::initialize();
 

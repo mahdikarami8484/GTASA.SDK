@@ -21,8 +21,6 @@ namespace
                                       HWND hWndParent, HMENU hMenu, HINSTANCE hInstance,
                                       LPVOID lpParam)
     {
-        // EventBus::instance().dispatch(EventType::OnCrimeCommitted);
-
         if (!o_CreateWindowExA)
         {
             return CreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth,
@@ -42,6 +40,18 @@ namespace
                                  createWindowExAEvent->hInstance, createWindowExAEvent->lpParam);
     }
 
+    using t_SetWindowLongA = LONG(__stdcall*)(HWND, int, LONG);
+    t_SetWindowLongA o_SetWindowLongA = nullptr;
+
+    LONG __stdcall hk_SetWindowLongA(HWND hWnd, int nIndex, LONG dwNewLong)
+    {
+        if (!o_SetWindowLongA) return NULL;
+        auto setWindowEvent =
+            std::make_shared<Events::SetWindowLongAEvent>(hWnd, nIndex, dwNewLong);
+        EventBus::instance().dispatch(setWindowEvent);
+        return o_SetWindowLongA(hWnd, nIndex, setWindowEvent->dwNewLong);
+    }
+
 } // anonymous namespace
 
 // --------------------------------------------------
@@ -49,13 +59,24 @@ namespace
 // --------------------------------------------------
 void WindowsFuncsHook::install()
 {
-    o_CreateWindowExA = reinterpret_cast<decltype(&hk_CreateWindowExA)>(
-        GetProcAddress(GetModuleHandleA("user32.dll"), "CreateWindowExA"));
+    HMODULE user32 = LoadLibraryA("user32.dll");
+    if (user32)
+    {
+        o_CreateWindowExA = reinterpret_cast<decltype(&hk_CreateWindowExA)>(
+            GetProcAddress(user32, "CreateWindowExA"));
+        HookManager::instance().addHook(reinterpret_cast<void**>(&o_CreateWindowExA),
+                                        reinterpret_cast<void*>(hk_CreateWindowExA));
+        LOG_INFO("[WindowsFuncsHook] CreateWindowExA func hooked!");
 
-    HookManager::instance().addHook(reinterpret_cast<void**>(&o_CreateWindowExA),
-                                    reinterpret_cast<void*>(hk_CreateWindowExA));
-
-    LOG_INFO("[WindowsFuncsHook] CreateWindowExA func hooked!");
+        o_SetWindowLongA = reinterpret_cast<decltype(&hk_SetWindowLongA)>(
+            GetProcAddress(user32, "SetWindowLongA"));
+        if (o_SetWindowLongA)
+        {
+            HookManager::instance().addHook(reinterpret_cast<void**>(&o_SetWindowLongA),
+                                            reinterpret_cast<void*>(hk_SetWindowLongA));
+            LOG_INFO("[WindowsFuncsHook] SetWindowLongA func hooked!");
+        }
+    }
 }
 
 void WindowsFuncsHook::uninstall()

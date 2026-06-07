@@ -62,6 +62,23 @@ namespace GTASA
                     return "CreateDeviceEvent";
                 }
             };
+
+            class ResetDeviceEvent : public BaseEvent
+            {
+            public:
+                IDirect3DDevice9* pDevice;
+                D3DPRESENT_PARAMETERS* pPresentationParameters;
+
+                ResetDeviceEvent(IDirect3DDevice9* device, D3DPRESENT_PARAMETERS* params)
+                    : pDevice(device), pPresentationParameters(params)
+                {
+                }
+
+                virtual const char* getName() const override
+                {
+                    return "ResetDeviceEvent";
+                }
+            };
         } // namespace Events
     } // namespace SDK
 } // namespace GTASA

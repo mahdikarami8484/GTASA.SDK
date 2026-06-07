@@ -66,6 +66,24 @@ namespace GTASA
                 }
             };
 
+            class SetWindowLongAEvent : public BaseEvent
+            {
+            public:
+                HWND hWnd;
+                int nIndex;
+                LONG dwNewLong;
+
+                SetWindowLongAEvent(HWND hwnd, int index, LONG newLong)
+                    : hWnd(hwnd), nIndex(index), dwNewLong(newLong)
+                {
+                }
+
+                virtual const char* getName() const override
+                {
+                    return "SetWindowLongAEvent";
+                }
+            };
+
         } // namespace Events
 
     } // namespace SDK

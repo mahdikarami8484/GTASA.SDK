@@ -6,7 +6,7 @@ using namespace GTASA::SDK;
 
 std::unique_ptr<PlayerInfo> PlayerInfo::getLocal()
 {
-    uintptr_t playerInfoAddr = GameBase::address(Offsets::Globals::LocalPlayer);
+    uintptr_t playerInfoAddr = GameBase::address(Offsets::Dynamic.LocalPlayer);
 
     if (!playerInfoAddr) return nullptr;
 
@@ -72,15 +72,43 @@ int GTASA::SDK::PlayerInfo::getWantedLevel() const
 
 void GTASA::SDK::PlayerInfo::setWantedLevel(uint8_t amount, bool chaos)
 {
+    uintptr_t cWantedPtr = getChaosAddr();
+
+    if (!cWantedPtr) return;
+
+    if (amount > 6) amount = 6;
+
+    int chaosValues[] = {0, 50, 180, 550, 1200, 2400, 4600};
+    uintptr_t wantedLevelAddr = cWantedPtr + Offsets::PlayerInfo::WantedLevel;
+
+    *reinterpret_cast<int*>(wantedLevelAddr) = amount;
+    *reinterpret_cast<int*>(cWantedPtr) = chaosValues[amount];
+
+    using t_UpdateWanted = void(__fastcall*)(uintptr_t this_ptr, void* edx_dummy);
+
+    t_UpdateWanted UpdateWanted =
+        reinterpret_cast<t_UpdateWanted>(GameBase::address(Offsets::Dynamic.OnWanted));
+
+    if (UpdateWanted)
+    {
+        UpdateWanted(cWantedPtr, nullptr);
+    }
+}
+
+/*
+void GTASA::SDK::PlayerInfo::setWantedLevel(uint8_t amount, bool chaos)
+{
     uintptr_t wantedLevel = getChaosAddr() + Offsets::PlayerInfo::WantedLevel;
 
-    if (!wantedLevel) return;
+    if(!wantedLevel) return;
 
     *reinterpret_cast<int*>(wantedLevel) = amount;
 
     int chaosValues[] = {0, 50, 180, 550, 1200, 2400, 4600};
 
-    if (amount > 6) return;
-
+    if (amount > 6) 
+        return;
+        
     setChaos(chaosValues[amount]);
 }
+*/

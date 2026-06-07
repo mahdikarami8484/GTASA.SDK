@@ -5,13 +5,21 @@ namespace GTASA
 {
     namespace SDK
     {
+        // Structure that holds all dynamic offsets (which change based on the version)
+        struct GameOffsets
+        {
+            uintptr_t LocalPlayer;
+            uintptr_t sendHelpMessageFunc;
+            uintptr_t IdleLoop;
+            uintptr_t OnWanted;
+            uintptr_t OnCrimeCommited;
+            uintptr_t SetResolution;
+        };
 
         namespace Offsets
         {
-            namespace Globals
-            {
-                constexpr uintptr_t LocalPlayer = 0x77CD98;
-            }
+            // This is a sample global of offsets available throughout the project with the keyword Offsets::Dynamic
+            inline GameOffsets Dynamic = {};
 
             namespace PlayerInfo
             {
@@ -34,11 +42,6 @@ namespace GTASA
                 constexpr uintptr_t pos_y = 0x34;
                 constexpr uintptr_t pos_z = 0x38;
             } // namespace Matrix
-
-            namespace CHud
-            {
-                constexpr uintptr_t sendHelpMessageFunc = 0x188BE0;
-            }
         } // namespace Offsets
 
     } // namespace SDK

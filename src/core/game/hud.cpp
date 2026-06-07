@@ -8,7 +8,8 @@ void HUD::sendHelpMessage(const std::string& msg)
 {
     Internal::Functions::CHUD::sendHelpMessage =
         reinterpret_cast<Internal::Functions::CHUD::sendHelpMessage_t>(
-            GameBase::address(Offsets::CHud::sendHelpMessageFunc));
+            GameBase::address(Offsets::Dynamic.sendHelpMessageFunc));
+
     LOG_INFO("send message: %s", msg.c_str());
     if (Internal::Functions::CHUD::sendHelpMessage)
     {

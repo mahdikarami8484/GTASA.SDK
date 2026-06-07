@@ -13,7 +13,6 @@ namespace GTASA
 {
     namespace SDK
     {
-
         class SampleScript : public Script
         {
 
@@ -29,10 +28,34 @@ namespace GTASA
                 if (const auto* processFrameEvent =
                         dynamic_cast<const Events::ProcessFrameEvent*>(event.get()))
                 {
-                    if ((GetAsyncKeyState(VK_F5) & 1))
+
+                    static bool wasF5Pressed = false;
+                    bool isF5Pressed = (GetAsyncKeyState(VK_F5) & 0x8000) != 0;
+                    //if (GetAsyncKeyState(VK_F5) & 0x8000)
+                    if (isF5Pressed && !wasF5Pressed)
                     {
+
+                        LOG_INFO("============= F5 KEY PRESSED SUCCESSFULLY! =============");
+
                         std::unique_ptr<PlayerInfo> playerInfo = PlayerInfo::getLocal();
-                        if (!playerInfo) return;
+                        if (!playerInfo)
+                        {
+                            LOG_INFO("[ERROR] PlayerInfo is NULL!");
+                            return;
+                        }
+                        if (!playerInfo->getPed())
+                        {
+                            LOG_INFO("[ERROR] getPed() is NULL!");
+                            return;
+                        }
+
+                        auto matrix = playerInfo->getPed()->getMatrix();
+                        if (!matrix)
+                        {
+                            LOG_INFO("[ERROR] Matrix is NULL!");
+                            return;
+                        }
+
                         playerInfo->getPed()->setHealth(1000.0f);
                         playerInfo->getPed()->setArmor(1000.0f);
                         float hp = playerInfo->getPed()->getHealth();
@@ -49,13 +72,16 @@ namespace GTASA
 
                         playerInfo->setMoney(200);
                         int wantedLevel = playerInfo->getWantedLevel();
-                        // playerInfo->setWantedLevel(wantedLevel > 0 ? 0 : 6);
+                        playerInfo->setWantedLevel(wantedLevel > 0 ? 0 : 6);
 
                         int chaos = playerInfo->getChaos();
                         wantedLevel = playerInfo->getWantedLevel();
                         LOG_INFO("chaos:%d, wantedLevel: %d", chaos, wantedLevel);
                         HUD::sendHelpMessage("Hello GTA, I'm Mahdi...!");
+
+                        LOG_INFO("============= CHEATS APPLIED =============");
                     }
+                    wasF5Pressed = isF5Pressed;
                 }
 
                 if (const auto* crimeEvent =
@@ -74,11 +100,11 @@ namespace
     GTASA::SDK::AutoRegisterScript<GTASA::SDK::SampleScript> _autoReg;
 }
 
-/*
+/* 
 
 
                 switch (type)
-                {
+                {   
                 case GTASA::SDK::EventType::GameProcess:
                 {
                     if (GetAsyncKeyState(VK_F5) & 1)
@@ -94,7 +120,7 @@ namespace
                         LOG_INFO("Player Armor: %.2f", arm);
 
                         Vector3 pos = player->getMatrix()->getPosition();
-                        LOG_INFO("Player pos_x: %.2f, pos_y: %.2f, pos_z:%.2f",
+                        LOG_INFO("Player pos_x: %.2f, pos_y: %.2f, pos_z:%.2f", 
                         pos.x, pos.y, pos.z);
 
                         player->getMatrix()->setPosition({pos.x, pos.y, pos.z + 5.0f});

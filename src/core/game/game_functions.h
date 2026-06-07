@@ -1,5 +1,5 @@
 #pragma once
-#include <windows.h> // برای LPCSTR
+#include <windows.h>
 
 namespace GTASA
 {
@@ -17,9 +17,13 @@ namespace GTASA
 
                 namespace System
                 {
-                    // --- ProcessFrame ---
+                    // --- ProcessFrame v1 ---
                     using tProcessFrame = int(__cdecl*)(int command, int param);
                     inline tProcessFrame oProcessFrame = nullptr;
+
+                    // --- ProcessFrame v2 ---
+                    using t_Idle = void(__cdecl*)();
+                    inline t_Idle o_Idle = nullptr;
 
                     // --- strcpy ---
                     using t_strcpy = void(__cdecl*)(int destination, int source,
