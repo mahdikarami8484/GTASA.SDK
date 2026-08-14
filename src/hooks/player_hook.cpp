@@ -26,23 +26,18 @@ namespace
     }
 
 
-    using t_OnCrimeCommited = void(__thiscall*)(void* this_ptr, void* param_1, void* param_2,
-                                                void* param_3);
-
+    using t_OnCrimeCommited = void(__thiscall*)(void* this_ptr, void* param_1, void* param_2, void* param_3);
     t_OnCrimeCommited o_OnCrimeCommited = nullptr;
 
-    void __fastcall hk_OnCrimeCommited(void* this_ptr, void* param_1, void* param_2, void* param_3)
+    // FIX: Changed convention to __thiscall and removed illegal return keyword from void function
+    void __thiscall hk_OnCrimeCommited(void* this_ptr, void* param_1, void* param_2, void* param_3)
     {
-        // auto crimeEvent =
-        //     std::make_shared<Events::CrimeCommittedEvent>(
-        //         param_1,
-        //         nullptr,
-        //         nullptr);
-
-        // EventBus::instance().dispatch(crimeEvent);
-
-        return o_OnCrimeCommited(this_ptr, param_1, param_2, param_3);
+        if (o_OnCrimeCommited)
+        {
+            o_OnCrimeCommited(this_ptr, param_1, param_2, param_3);
+        }
     }
+
 
 } // anonymous namespace
 
