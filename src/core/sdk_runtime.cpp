@@ -35,10 +35,10 @@ void SDKRuntime::init()
 
     GameBase::initialize();
 
-    LOG_INFO("[SDKRuntime] Initializing scripts...");
+    LOG_INFO("[SDKRuntime] Dispatching InitializeEvent...");
     auto initializeEvent = std::make_unique<Events::InitializeEvent>();
     EventBus::instance().dispatch(std::move(initializeEvent));
-    LOG_INFO("[SDKRuntime] Scripts initialized successfully.");
+    LOG_INFO("[SDKRuntime] InitializeEvent dispatched.");
 
     LOG_INFO("[SDKRuntime] Installing hooks...");
     HookRegistry::instance().sort();
