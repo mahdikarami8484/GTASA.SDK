@@ -16,7 +16,11 @@ void EventBus::add(std::unique_ptr<Script> script)
 
 void EventBus::dispatch(std::shared_ptr<BaseEvent> event)
 {
-    if (!event) return;
+    if (!event)
+    {
+        LOG_WARNING("[EventBus] Tried to dispatch null event.");
+        return;
+    }
 
     for (auto& script : m_scripts)
     {
@@ -25,4 +29,6 @@ void EventBus::dispatch(std::shared_ptr<BaseEvent> event)
             script->onEvent(event);
         }
     }
+
+    LOG_DEBUG("[EventBus] Dispatched event: %s", event->getName());
 }

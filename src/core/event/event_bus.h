@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "base_event.h"
+#include "core/logging/logger.hpp"
 #include "core/script/script.h"
 #include "memory"
 
