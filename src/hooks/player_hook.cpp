@@ -5,9 +5,7 @@ using namespace GTASA::SDK;
 namespace
 {
 
-    // --------------------------------------------------
     // GTA function pointers
-    // --------------------------------------------------
 
     using t_OnWanted = void(__fastcall*)(void* this_ptr, int* param_1);
     t_OnWanted o_OnWanted = nullptr;
@@ -29,7 +27,7 @@ namespace
     using t_OnCrimeCommited = void(__thiscall*)(void* this_ptr, void* param_1, void* param_2, void* param_3);
     t_OnCrimeCommited o_OnCrimeCommited = nullptr;
 
-    // FIX: Changed convention to __thiscall and removed illegal return keyword from void function
+    // Changed convention to __thiscall and removed illegal return keyword from void function
     void __thiscall hk_OnCrimeCommited(void* this_ptr, void* param_1, void* param_2, void* param_3)
     {
         if (o_OnCrimeCommited)
@@ -41,10 +39,7 @@ namespace
 
 } // anonymous namespace
 
-// --------------------------------------------------
 // IHook implementation
-// --------------------------------------------------
-
 bool PlayerHook::install()
 {
     LOG_INFO("[PlayerHook] Installing player hooks...");
@@ -55,7 +50,6 @@ bool PlayerHook::install()
     if (!o_OnWanted)
     {
         LOG_ERROR("[PlayerHook] Failed to resolve OnWanted address.");
-
         return false;
     }
 
@@ -70,34 +64,28 @@ bool PlayerHook::install()
     if (!o_OnCrimeCommited)
     {
         LOG_ERROR("[PlayerHook] Failed to resolve OnCrimeCommited address.");
-
         return false;
     }
 
-    // HookManager::instance().addHook(reinterpret_cast<void**>(&o_OnCrimeCommited),
-    //                                 reinterpret_cast<void*>(hk_OnCrimeCommited));
+    // Uncommited the hook registration line to ensure OnCrimeCommited is actively hooked into the runtime
+    HookManager::instance().addHook(reinterpret_cast<void**>(&o_OnCrimeCommited),
+                                    reinterpret_cast<void*>(hk_OnCrimeCommited));
 
     LOG_DEBUG("[PlayerHook] OnCrimeCommited resolved at: %p",
               reinterpret_cast<void*>(o_OnCrimeCommited));
 
     LOG_INFO("[PlayerHook] Player hooks installed successfully.");
-
     return true;
 }
 
 bool PlayerHook::uninstall()
 {
     // HookManager handles hook removal.
-
     LOG_DEBUG("[PlayerHook] Uninstall requested.");
-
     return true;
 }
 
-// --------------------------------------------------
 // Auto register
-// --------------------------------------------------
-
 namespace
 {
     AutoHook<PlayerHook> _autoPlayerHook;
