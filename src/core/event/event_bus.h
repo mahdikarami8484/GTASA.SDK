@@ -2,11 +2,11 @@
 
 #include <unordered_map>
 #include <vector>
+#include <memory>
 
 #include "base_event.h"
-#include "core/logging/logger.hpp"
+#include "core/logging/logger.h"
 #include "core/script/script.h"
-#include "memory"
 
 namespace GTASA
 {
