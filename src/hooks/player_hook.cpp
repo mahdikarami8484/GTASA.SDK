@@ -17,10 +17,14 @@ namespace
         auto crimeEvent = std::make_shared<Events::CrimeCommittedEvent>(param_1, nullptr, nullptr);
 
         // EventBus::instance().dispatch(crimeEvent);
+        // o_OnCrimeCommitted(this_ptr, param_1);
 
-        // TODO: Call original function once event handling is implemented.
-        // o_OnWanted(this_ptr, param_1);
+        if (o_OnWanted)
+        {
+            o_OnWanted(this_ptr, param_1);
+        }
     }
+
 
     using t_OnCrimeCommited = void(__thiscall*)(void* this_ptr, void* param_1, void* param_2,
                                                 void* param_3);
