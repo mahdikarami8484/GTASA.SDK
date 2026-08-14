@@ -75,7 +75,7 @@ bool WindowsFuncsHook::install()
     HookManager::instance().addHook(reinterpret_cast<void**>(&o_CreateWindowExA),
                                     reinterpret_cast<void*>(hk_CreateWindowExA));
 
-    LOG_DEBUG("[WindowsFuncsHook] CreateWindowExA resolved at: {}",
+    LOG_DEBUG("[WindowsFuncsHook] CreateWindowExA resolved at: %p",
               reinterpret_cast<void*>(o_CreateWindowExA));
 
     LOG_INFO("[WindowsFuncsHook] Windows function hooks installed successfully.");

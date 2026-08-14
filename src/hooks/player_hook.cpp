@@ -63,7 +63,7 @@ bool PlayerHook::install()
     HookManager::instance().addHook(reinterpret_cast<void**>(&o_OnWanted),
                                     reinterpret_cast<void*>(hk_OnWanted));
 
-    LOG_DEBUG("[PlayerHook] OnWanted resolved at: {}", reinterpret_cast<void*>(o_OnWanted));
+    LOG_DEBUG("[PlayerHook] OnWanted resolved at: %p", reinterpret_cast<void*>(o_OnWanted));
 
     // gta_sa.exe + 0x162120
     o_OnCrimeCommited = reinterpret_cast<t_OnCrimeCommited>(GameBase::address(0x162120));
@@ -78,7 +78,7 @@ bool PlayerHook::install()
     HookManager::instance().addHook(reinterpret_cast<void**>(&o_OnCrimeCommited),
                                     reinterpret_cast<void*>(hk_OnCrimeCommited));
 
-    LOG_DEBUG("[PlayerHook] OnCrimeCommited resolved at: {}",
+    LOG_DEBUG("[PlayerHook] OnCrimeCommited resolved at: %p",
               reinterpret_cast<void*>(o_OnCrimeCommited));
 
     LOG_INFO("[PlayerHook] Player hooks installed successfully.");

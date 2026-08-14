@@ -53,7 +53,7 @@ namespace
 
         if (FAILED(result))
         {
-            LOG_ERROR("[D3D9Hook] CreateDevice failed. HRESULT: {}", result);
+            LOG_ERROR("[D3D9Hook] CreateDevice failed. HRESULT: %ld", result);
         }
         else
         {
@@ -102,7 +102,7 @@ bool D3D9Hook::install()
     HookManager::instance().addHook(reinterpret_cast<void**>(&o_CreateDevice),
                                     reinterpret_cast<void*>(hk_CreateDevice));
 
-    LOG_DEBUG("[D3D9Hook] CreateDevice address: {}", reinterpret_cast<void*>(o_CreateDevice));
+    LOG_DEBUG("[D3D9Hook] CreateDevice address: %p", reinterpret_cast<void*>(o_CreateDevice));
 
     d3d->Release();
 

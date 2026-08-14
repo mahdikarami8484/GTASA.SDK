@@ -54,7 +54,7 @@ bool GameLoopHook::install()
     HookManager::instance().addHook(reinterpret_cast<void**>(&oProcessFrame),
                                     reinterpret_cast<void*>(hk_ProcessFrame));
 
-    LOG_DEBUG("[GameLoopHook] ProcessFrame resolved at: {}",
+    LOG_DEBUG("[GameLoopHook] ProcessFrame resolved at: %p",
               reinterpret_cast<void*>(oProcessFrame));
 
     // 0x69db70 - 0x400000 = 0x29db70
@@ -69,7 +69,7 @@ bool GameLoopHook::install()
     HookManager::instance().addHook(reinterpret_cast<void**>(&o_strcpy),
                                     reinterpret_cast<void*>(hk_strcpy));
 
-    LOG_DEBUG("[GameLoopHook] strcpy resolved at: {}", reinterpret_cast<void*>(o_strcpy));
+    LOG_DEBUG("[GameLoopHook] strcpy resolved at: %p", reinterpret_cast<void*>(o_strcpy));
 
     LOG_INFO("[GameLoopHook] Game loop hooks installed successfully.");
 
