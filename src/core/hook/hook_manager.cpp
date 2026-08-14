@@ -1,6 +1,5 @@
 #include "hook_manager.h"
-
-#include <core/logging/logger.hpp>
+#include <core/logging/logger.h> 
 
 HookManager& HookManager::instance()
 {
@@ -11,12 +10,14 @@ HookManager& HookManager::instance()
 void HookManager::addHook(void** target, void* detour)
 {
     this->hooks.push_back({target, detour});
-    LOG_DEBUG("[HookManager] Hook registered. Total hooks: %d", hooks.size());
+    // Changed format specifier from %d to %zu for size_t validation
+    LOG_DEBUG("[HookManager] Hook registered. Total hooks: %zu", hooks.size());
 }
 
 void HookManager::enableHooks()
 {
-    LOG_INFO("[HookManager] Enabling %d hooks...", hooks.size());
+    // Changed format specifier from %d to %zu for size_t validation
+    LOG_INFO("[HookManager] Enabling %zu hooks...", hooks.size());
 
     LONG result = DetourTransactionBegin();
     if (result != NO_ERROR)
@@ -51,12 +52,14 @@ void HookManager::enableHooks()
         return;
     }
 
-    LOG_INFO("[HookManager] Hooks enabled: %d/%d.", attachedCount, hooks.size());
+    // Changed format specifiers from %d to %zu for both attachedCount and hooks.size()
+    LOG_INFO("[HookManager] Hooks enabled: %zu/%zu.", attachedCount, hooks.size());
 }
 
 void HookManager::disableHooks()
 {
-    LOG_INFO("[HookManager] Disabling %d hooks...", hooks.size());
+    // Changed format specifier from %d to %zu for size_t validation
+    LOG_INFO("[HookManager] Disabling %zu hooks...", hooks.size());
 
     LONG result = DetourTransactionBegin();
     if (result != NO_ERROR)
@@ -91,5 +94,6 @@ void HookManager::disableHooks()
         return;
     }
 
-    LOG_INFO("[HookManager] Hooks disabled: %d/%d.", detachedCount, hooks.size());
+    // Changed format specifiers from %d to %zu for both detachedCount and hooks.size()
+    LOG_INFO("[HookManager] Hooks disabled: %zu/%zu.", detachedCount, hooks.size());
 }
