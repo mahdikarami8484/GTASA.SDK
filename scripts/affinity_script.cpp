@@ -14,6 +14,11 @@ namespace GTASA
         public:
             AffinityScript() {}
 
+            virtual const char* name() const override
+            {
+                return "AffinityScript";
+            }
+
             virtual void onEvent(std::shared_ptr<BaseEvent> event) override
             {
                 if (const auto* initializeEvent =

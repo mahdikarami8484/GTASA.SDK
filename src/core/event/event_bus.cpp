@@ -10,7 +10,13 @@ EventBus& EventBus::instance()
 
 void EventBus::add(std::unique_ptr<Script> script)
 {
-    if (!script) return;
+    if (!script)
+    {
+        LOG_WARNING("[EventBus] Tried to register null script.");
+        return;
+    }
+
+    LOG_INFO("[EventBus] Registering script: %s", script->name());
     m_scripts.emplace_back(std::move(script));
 }
 

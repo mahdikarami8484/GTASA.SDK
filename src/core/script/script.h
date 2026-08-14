@@ -13,6 +13,8 @@ namespace GTASA
             Script() = default;
             virtual ~Script() = default;
 
+            virtual const char* name() const = 0;
+
             // ----------------------------
             // Lifecycle Events
             // ----------------------------

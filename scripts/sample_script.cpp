@@ -20,6 +20,11 @@ namespace GTASA
         public:
             SampleScript() {}
 
+            virtual const char* name() const override
+            {
+                return "SampleScript";
+            }
+
             virtual void onEvent(std::shared_ptr<BaseEvent> event) override
             {
                 if (const auto* initializeEvent =
