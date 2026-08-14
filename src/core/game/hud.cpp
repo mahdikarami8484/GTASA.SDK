@@ -1,6 +1,5 @@
 #include "hud.h"
-
-#include "core/logging/logger.hpp"
+#include "core/logging/logger.h"
 
 using namespace GTASA::SDK;
 
@@ -21,7 +20,8 @@ void HUD::sendHelpMessage(const std::string& msg)
         LOG_DEBUG("[HUD] sendHelpMessage function resolved.");
     }
 
-    LOG_DEBUG("[HUD] Sending help message: {}", msg);
+    # FIX: Changed formatting to %s and converted std::string using msg.c_str() to prevent runtime crashes
+    LOG_DEBUG("[HUD] Sending help message: %s", msg.c_str());
 
     Internal::Functions::CHUD::sendHelpMessage(msg.c_str(), false, false, false);
 }
