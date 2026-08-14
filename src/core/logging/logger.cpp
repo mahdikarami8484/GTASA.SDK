@@ -105,12 +105,18 @@ namespace Logging
         // Add log level prefix with color
         switch (level)
         {
-        case LogLevel::Info:
-            finalStr = "[INFO] ";
+        case LogLevel::Debug:
+            finalStr = "\033[37m[DEBUG] ";
             break;
+
+        case LogLevel::Info:
+            finalStr = "\033[32m[INFO] ";
+            break;
+
         case LogLevel::Warning:
             finalStr = "\033[33m[WARNING] ";
             break;
+
         case LogLevel::Error:
             finalStr = "\033[31m[ERROR] ";
             break;
