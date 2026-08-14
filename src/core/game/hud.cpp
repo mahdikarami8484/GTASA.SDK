@@ -20,7 +20,7 @@ void HUD::sendHelpMessage(const std::string& msg)
         LOG_DEBUG("[HUD] sendHelpMessage function resolved.");
     }
 
-    # FIX: Changed formatting to %s and converted std::string using msg.c_str() to prevent runtime crashes
+    // Changed formatting to %s and converted std::string using msg.c_str() to prevent runtime crashes
     LOG_DEBUG("[HUD] Sending help message: %s", msg.c_str());
 
     Internal::Functions::CHUD::sendHelpMessage(msg.c_str(), false, false, false);
