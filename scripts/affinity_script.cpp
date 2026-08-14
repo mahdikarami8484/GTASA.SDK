@@ -30,11 +30,11 @@ namespace GTASA
                     DWORD_PTR processAffinityMask = 1; // First CPU core
                     if (SetProcessAffinityMask(hProcess, processAffinityMask))
                     {
-                        LOG_INFO("[AffinityService] Process affinity set to first CPU core.\n");
+                        LOG_INFO("[AffinityService] Process affinity set to first CPU core.");
                     }
                     else
                     {
-                        LOG_ERROR("[AffinityService] Failed to set process affinity.\n");
+                        LOG_ERROR("[AffinityService] Failed to set process affinity.");
                     }
                 }
             }

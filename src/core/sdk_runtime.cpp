@@ -30,6 +30,7 @@ void SDKRuntime::init()
     if (m_initialized) return;
 
     Logging::Logger::Instance().Start();
+    Logging::Logger::Instance().SetLevel(Logging::LogLevel::Info);
 
     LOG_INFO("[SDKRuntime] Initializing SDK Runtime...");
 
@@ -47,12 +48,9 @@ void SDKRuntime::init()
     uint8_t installedHooksCount = 0;
     for (auto& hook : HookRegistry::instance().getAll())
     {
-        if (!hook->isEnabled())
-        {
-            enabledHooksCount++;
-            continue;
-        }
+        if (!hook->isEnabled()) continue;
         if (hook->install()) installedHooksCount++;
+        enabledHooksCount++;
     }
 
     LOG_INFO("[SDKRuntime] Hooks installed: %d/%d.", installedHooksCount, enabledHooksCount);

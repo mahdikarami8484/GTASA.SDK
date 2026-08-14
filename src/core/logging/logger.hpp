@@ -37,10 +37,10 @@ namespace Logging
      */
     enum class LogLevel
     {
+        Debug,   ///< Debug messages
         Info,    ///< Informational messages
         Warning, ///< Warning messages
         Error,   ///< Error messages
-        Debug    ///< Debug messages
     };
 
     /**

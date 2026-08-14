@@ -75,8 +75,8 @@ bool PlayerHook::install()
         return false;
     }
 
-    HookManager::instance().addHook(reinterpret_cast<void**>(&o_OnCrimeCommited),
-                                    reinterpret_cast<void*>(hk_OnCrimeCommited));
+    // HookManager::instance().addHook(reinterpret_cast<void**>(&o_OnCrimeCommited),
+    //                                 reinterpret_cast<void*>(hk_OnCrimeCommited));
 
     LOG_DEBUG("[PlayerHook] OnCrimeCommited resolved at: %p",
               reinterpret_cast<void*>(o_OnCrimeCommited));
