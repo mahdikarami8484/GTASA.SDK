@@ -4,9 +4,7 @@ using namespace GTASA::SDK;
 
 namespace
 {
-    // --------------------------------------------------
     // DirectX9 function pointer
-    // --------------------------------------------------
     using tProcessFrame = int(__cdecl*)(int command, int param);
     tProcessFrame oProcessFrame = nullptr;
 
@@ -24,18 +22,16 @@ namespace
                                    D3DPRESENT_PARAMETERS* pPresentationParameters,
                                    IDirect3DDevice9** ppReturnedDeviceInterface)
     {
+        // Solved GitHub Copilot's warning. Returning D3DERR_INVALIDCALL directly instead of forwarding null pointers to prevent game crashes
         if (!pPresentationParameters || !pD3D)
         {
             LOG_WARNING("[D3D9Hook] Invalid CreateDevice parameters.");
-
-            return o_CreateDevice(pD3D, Adapter, DeviceType, hFocusWindow, BehaviorFlags,
-                                  pPresentationParameters, ppReturnedDeviceInterface);
+            return D3DERR_INVALIDCALL;
         }
 
         if (!g_deviceCreated)
         {
             LOG_INFO("[D3D9Hook] Direct3D device creation intercepted.");
-
             g_deviceCreated = true;
         }
 
@@ -65,9 +61,7 @@ namespace
 
 } // anonymous namespace
 
-// --------------------------------------------------
 // IHook implementation
-// --------------------------------------------------
 
 bool D3D9Hook::install()
 {
@@ -114,18 +108,12 @@ bool D3D9Hook::install()
 bool D3D9Hook::uninstall()
 {
     LOG_INFO("[D3D9Hook] Uninstall requested.");
-
     // handled by HookManager
-
     LOG_INFO("[D3D9Hook] D3D9 hook uninstalled.");
-
     return true;
 }
 
-// --------------------------------------------------
 // Auto register
-// --------------------------------------------------
-
 namespace
 {
     AutoHook<D3D9Hook> _autoD3D9Hook;
