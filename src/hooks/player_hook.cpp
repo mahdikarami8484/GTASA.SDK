@@ -33,7 +33,7 @@ namespace
 // --------------------------------------------------
 // IHook implementation
 // --------------------------------------------------
-void PlayerHook::install()
+bool PlayerHook::install()
 {
     // Offset: 0x619b60 - 0x400000 = 0x219b60
     // gta_sa.exe+0x16279B
@@ -57,11 +57,14 @@ void PlayerHook::install()
                                     reinterpret_cast<void*>(hk_OnCrimeCommited));
 
     LOG_INFO("[PlayerHook] Player OnCrimeCommited hooked!");
+
+    return true;
 }
 
-void PlayerHook::uninstall()
+bool PlayerHook::uninstall()
 {
     // handled by HookManager
+    return true;
 }
 
 // --------------------------------------------------

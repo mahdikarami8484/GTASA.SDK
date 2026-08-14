@@ -35,7 +35,7 @@ namespace
 // --------------------------------------------------
 // IHook implementation
 // --------------------------------------------------
-void GameLoopHook::install()
+bool GameLoopHook::install()
 {
     // Offset: 0x619b60 - 0x400000 = 0x219b60
     oProcessFrame = reinterpret_cast<tProcessFrame>(GameBase::address(0x00219b60));
@@ -52,11 +52,14 @@ void GameLoopHook::install()
                                     reinterpret_cast<void*>(hk_strcpy));
 
     LOG_INFO("[GameLoopHook] strcpy hooked!");
+
+    return true;
 }
 
-void GameLoopHook::uninstall()
+bool GameLoopHook::uninstall()
 {
     // handled by HookManager
+    return true;
 }
 
 // --------------------------------------------------

@@ -47,7 +47,7 @@ namespace
 // --------------------------------------------------
 // IHook implementation
 // --------------------------------------------------
-void WindowsFuncsHook::install()
+bool WindowsFuncsHook::install()
 {
     o_CreateWindowExA = reinterpret_cast<decltype(&hk_CreateWindowExA)>(
         GetProcAddress(GetModuleHandleA("user32.dll"), "CreateWindowExA"));
@@ -56,11 +56,14 @@ void WindowsFuncsHook::install()
                                     reinterpret_cast<void*>(hk_CreateWindowExA));
 
     LOG_INFO("[WindowsFuncsHook] CreateWindowExA func hooked!");
+
+    return true;
 }
 
-void WindowsFuncsHook::uninstall()
+bool WindowsFuncsHook::uninstall()
 {
     // handled by HookManager
+    return true;
 }
 
 // --------------------------------------------------

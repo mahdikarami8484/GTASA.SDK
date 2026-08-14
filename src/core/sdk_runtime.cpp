@@ -42,10 +42,20 @@ void SDKRuntime::init()
 
     LOG_INFO("[SDKRuntime] Installing hooks...");
     HookRegistry::instance().sort();
-    for (auto& hook : HookRegistry::instance().getAll())
-        if (hook->isEnabled()) hook->install();
 
-    LOG_INFO("[SDKRuntime] Hooks installed successfully.");
+    uint8_t enabledHooksCount = 0;
+    uint8_t installedHooksCount = 0;
+    for (auto& hook : HookRegistry::instance().getAll())
+    {
+        if (!hook->isEnabled())
+        {
+            enabledHooksCount++;
+            continue;
+        }
+        if (hook->install()) installedHooksCount++;
+    }
+
+    LOG_INFO("[SDKRuntime] Hooks installed: %d/%d.", installedHooksCount, enabledHooksCount);
 
     HookManager::instance().enableHooks();
 

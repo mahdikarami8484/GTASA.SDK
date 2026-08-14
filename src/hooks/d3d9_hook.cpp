@@ -47,10 +47,10 @@ namespace
 // --------------------------------------------------
 // IHook implementation
 // --------------------------------------------------
-void D3D9Hook::install()
+bool D3D9Hook::install()
 {
     IDirect3D9* d3d = Direct3DCreate9(D3D_SDK_VERSION);
-    if (!d3d) return;
+    if (!d3d) return false;
 
     void** vTable = *reinterpret_cast<void***>(d3d);
     o_CreateDevice = reinterpret_cast<decltype(&hk_CreateDevice)>(vTable[16]);
@@ -60,11 +60,14 @@ void D3D9Hook::install()
 
     LOG_INFO("[D3D9Hook] CreateDevice hooked!");
     d3d->Release();
+
+    return true;
 }
 
-void D3D9Hook::uninstall()
+bool D3D9Hook::uninstall()
 {
     // handled by HookManager
+    return true;
 }
 
 // --------------------------------------------------
