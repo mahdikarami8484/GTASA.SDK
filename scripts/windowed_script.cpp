@@ -21,6 +21,11 @@ namespace GTASA
         public:
             WindowedScript() {}
 
+            virtual const char* name() const override
+            {
+                return "WindowedScript";
+            }
+
             virtual void onEvent(std::shared_ptr<BaseEvent> event) override
             {
                 if (const auto* initializeEvent =

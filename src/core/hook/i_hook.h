@@ -23,8 +23,8 @@ namespace GTASA
             }
 
             /* Lifecycle */
-            virtual void install() = 0;
-            virtual void uninstall() = 0;
+            virtual bool install() = 0;
+            virtual bool uninstall() = 0;
         };
 
     } // namespace SDK

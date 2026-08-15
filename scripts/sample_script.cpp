@@ -20,6 +20,11 @@ namespace GTASA
         public:
             SampleScript() {}
 
+            virtual const char* name() const override
+            {
+                return "SampleScript";
+            }
+
             virtual void onEvent(std::shared_ptr<BaseEvent> event) override
             {
                 if (const auto* initializeEvent =
@@ -37,12 +42,12 @@ namespace GTASA
                         playerInfo->getPed()->setArmor(1000.0f);
                         float hp = playerInfo->getPed()->getHealth();
                         float arm = playerInfo->getPed()->getArmor();
-                        LOG_INFO("Player Health: %.2f", hp);
-                        LOG_INFO("Player Armor: %.2f", arm);
+                        LOG_DEBUG("[Sample Script] Player Health: %.2f", hp);
+                        LOG_DEBUG("[Sample Script] Player Armor: %.2f", arm);
 
                         Vector3 pos = playerInfo->getPed()->getMatrix()->getPosition();
-                        LOG_INFO("Player pos_x: %.2f, pos_y: %.2f, pos_z:%.2f", pos.x, pos.y,
-                                 pos.z);
+                        LOG_DEBUG("[Sample Script] Player pos_x: %.2f, pos_y: %.2f, pos_z:%.2f",
+                                  pos.x, pos.y, pos.z);
 
                         playerInfo->getPed()->getMatrix()->setPosition(
                             {pos.x, pos.y, pos.z + 5.0f});
@@ -53,15 +58,15 @@ namespace GTASA
 
                         int chaos = playerInfo->getChaos();
                         wantedLevel = playerInfo->getWantedLevel();
-                        LOG_INFO("chaos:%d, wantedLevel: %d", chaos, wantedLevel);
-                        HUD::sendHelpMessage("Hello GTA, I'm Mahdi...!");
+                        LOG_DEBUG("[Sample Script] chaos:%d, wantedLevel: %d", chaos, wantedLevel);
+                        HUD::sendHelpMessage("GTASA SDK is running. Ready for custom scripts!");
                     }
                 }
 
                 if (const auto* crimeEvent =
                         dynamic_cast<const Events::CrimeCommittedEvent*>(event.get()))
                 {
-                    LOG_INFO("[Sample Script] crime event...");
+                    LOG_DEBUG("[Sample Script] crime event...");
                 }
             }
         };

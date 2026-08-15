@@ -30,22 +30,30 @@ void SDKRuntime::init()
     if (m_initialized) return;
 
     Logging::Logger::Instance().Start();
+    Logging::Logger::Instance().SetLevel(Logging::LogLevel::Info);
 
     LOG_INFO("[SDKRuntime] Initializing SDK Runtime...");
 
     GameBase::initialize();
 
-    LOG_INFO("[SDKRuntime] Initializing scripts...");
+    LOG_INFO("[SDKRuntime] Dispatching InitializeEvent...");
     auto initializeEvent = std::make_unique<Events::InitializeEvent>();
     EventBus::instance().dispatch(std::move(initializeEvent));
-    LOG_INFO("[SDKRuntime] Scripts initialized successfully.");
+    LOG_INFO("[SDKRuntime] InitializeEvent dispatched.");
 
     LOG_INFO("[SDKRuntime] Installing hooks...");
     HookRegistry::instance().sort();
-    for (auto& hook : HookRegistry::instance().getAll())
-        if (hook->isEnabled()) hook->install();
 
-    LOG_INFO("[SDKRuntime] Hooks installed successfully.");
+    size_t enabledHooksCount = 0;
+    size_t installedHooksCount = 0;
+    for (auto& hook : HookRegistry::instance().getAll())
+    {
+        if (!hook->isEnabled()) continue;
+        if (hook->install()) installedHooksCount++;
+        enabledHooksCount++;
+    }
+
+    LOG_INFO("[SDKRuntime] Hooks installed: %zu/%zu.", installedHooksCount, enabledHooksCount);
 
     HookManager::instance().enableHooks();
 

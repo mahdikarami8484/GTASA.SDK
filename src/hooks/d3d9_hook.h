@@ -28,9 +28,9 @@ namespace GTASA
                 return 2;
             }
 
-            virtual void install() override;
+            virtual bool install() override;
 
-            virtual void uninstall() override;
+            virtual bool uninstall() override;
         };
 
         namespace Events

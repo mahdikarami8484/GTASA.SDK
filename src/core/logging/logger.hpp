@@ -37,9 +37,10 @@ namespace Logging
      */
     enum class LogLevel
     {
+        Debug,   ///< Debug messages
         Info,    ///< Informational messages
         Warning, ///< Warning messages
-        Error    ///< Error messages
+        Error,   ///< Error messages
     };
 
     /**
@@ -127,4 +128,13 @@ namespace Logging
  */
 #define LOG_ERROR(msg, ...)                                                                        \
     Logging::Logger::Instance().Log(Logging::LogLevel::Error, __FILE__, __LINE__, msg,             \
+                                    ##__VA_ARGS__)
+
+/**
+ * @brief Macro for logging debug messages with file and line information
+ * @param msg Format string (printf-style)
+ * @param ... Variable arguments for format string
+ */
+#define LOG_DEBUG(msg, ...)                                                                        \
+    Logging::Logger::Instance().Log(Logging::LogLevel::Debug, __FILE__, __LINE__, msg,             \
                                     ##__VA_ARGS__)
