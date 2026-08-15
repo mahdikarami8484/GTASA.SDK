@@ -1,8 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <unordered_map>
 #include <vector>
-#include <memory>
 
 #include "base_event.h"
 #include "core/script/script.h"
@@ -11,8 +11,6 @@ namespace GTASA
 {
     namespace SDK
     {
-        // Forward declaration of Logger to decoupling compile-time dependencies
-        class Logger;
 
         class EventBus
         {

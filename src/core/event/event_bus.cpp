@@ -1,5 +1,7 @@
 #include "event_bus.h"
 
+#include "core/logging/logger.hpp"
+
 using namespace GTASA::SDK;
 
 EventBus& EventBus::instance()
