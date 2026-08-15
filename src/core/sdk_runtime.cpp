@@ -1,7 +1,7 @@
 #include "sdk_runtime.h"
 
 #include "core/game/game_base.h"
-#include "logging/logger.h"
+#include "logging/logger.hpp"
 
 using namespace GTASA::SDK;
 

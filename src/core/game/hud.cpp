@@ -1,6 +1,6 @@
 #include "hud.h"
 
-#include "core/logging/logger.h"
+#include "core/logging/logger.hpp"
 
 using namespace GTASA::SDK;
 

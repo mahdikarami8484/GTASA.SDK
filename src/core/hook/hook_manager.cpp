@@ -1,6 +1,6 @@
 #include "hook_manager.h"
 
-#include <core/logging/logger.h>
+#include <core/logging/logger.hpp>
 
 HookManager& HookManager::instance()
 {
