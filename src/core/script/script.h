@@ -1,7 +1,8 @@
 #pragma once
 
-#include "core/event/base_event.h"
 #include <memory>
+
+#include "core/event/base_event.h"
 
 namespace GTASA
 {
@@ -14,10 +15,9 @@ namespace GTASA
             Script() = default;
             virtual ~Script() = default;
 
-            // Provided a default implementation to prevent breaking existing downstream scripts
-            virtual const char* name() const 
-            { 
-                return "UnnamedScript"; 
+            virtual const char* name() const
+            {
+                return "UnnamedScript";
             }
 
             // Lifecycle Events

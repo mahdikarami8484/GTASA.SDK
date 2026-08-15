@@ -1,5 +1,6 @@
 #include "hook_manager.h"
-#include <core/logging/logger.h> 
+
+#include <core/logging/logger.h>
 
 HookManager& HookManager::instance()
 {
@@ -10,13 +11,11 @@ HookManager& HookManager::instance()
 void HookManager::addHook(void** target, void* detour)
 {
     this->hooks.push_back({target, detour});
-    // Changed format specifier from %d to %zu for size_t validation
     LOG_DEBUG("[HookManager] Hook registered. Total hooks: %zu", hooks.size());
 }
 
 void HookManager::enableHooks()
 {
-    // Changed format specifier from %d to %zu for size_t validation
     LOG_INFO("[HookManager] Enabling %zu hooks...", hooks.size());
 
     LONG result = DetourTransactionBegin();
@@ -52,13 +51,11 @@ void HookManager::enableHooks()
         return;
     }
 
-    // Changed format specifiers from %d to %zu for both attachedCount and hooks.size()
     LOG_INFO("[HookManager] Hooks enabled: %zu/%zu.", attachedCount, hooks.size());
 }
 
 void HookManager::disableHooks()
 {
-    // Changed format specifier from %d to %zu for size_t validation
     LOG_INFO("[HookManager] Disabling %zu hooks...", hooks.size());
 
     LONG result = DetourTransactionBegin();
@@ -94,6 +91,5 @@ void HookManager::disableHooks()
         return;
     }
 
-    // Changed format specifiers from %d to %zu for both detachedCount and hooks.size()
     LOG_INFO("[HookManager] Hooks disabled: %zu/%zu.", detachedCount, hooks.size());
 }

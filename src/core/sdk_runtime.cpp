@@ -1,7 +1,7 @@
 #include "sdk_runtime.h"
 
 #include "core/game/game_base.h"
-#include "logging/logger.h" 
+#include "logging/logger.h"
 
 using namespace GTASA::SDK;
 
@@ -44,7 +44,6 @@ void SDKRuntime::init()
     LOG_INFO("[SDKRuntime] Installing hooks...");
     HookRegistry::instance().sort();
 
-    // Changed types from uint8_t to size_t to prevent overflow when hook count exceeds 255
     size_t enabledHooksCount = 0;
     size_t installedHooksCount = 0;
     for (auto& hook : HookRegistry::instance().getAll())
@@ -54,7 +53,6 @@ void SDKRuntime::init()
         enabledHooksCount++;
     }
 
-    // Updated format specifiers to %zu to match size_t counters
     LOG_INFO("[SDKRuntime] Hooks installed: %zu/%zu.", installedHooksCount, enabledHooksCount);
 
     HookManager::instance().enableHooks();

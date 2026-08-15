@@ -22,7 +22,6 @@ namespace
                                    D3DPRESENT_PARAMETERS* pPresentationParameters,
                                    IDirect3DDevice9** ppReturnedDeviceInterface)
     {
-        // Solved GitHub Copilot's warning. Returning D3DERR_INVALIDCALL directly instead of forwarding null pointers to prevent game crashes
         if (!pPresentationParameters || !pD3D)
         {
             LOG_WARNING("[D3D9Hook] Invalid CreateDevice parameters.");
