@@ -1,5 +1,11 @@
 # GTASA.SDK
 
+<div align="center">
+
+[`فارسی`](./README_FA.md) | [`English`](./README.md)
+
+</div>
+
 GTASA.SDK is an in-development C++20 SDK for Grand Theft Auto: San Andreas. The goal is to grow it into a complete, developer-friendly SDK for exploring, extending, and interacting with GTA:SA internals from native C++ code. At its current stage, it builds a 32-bit Windows DLL that runs inside the game process, initializes an SDK runtime, installs function hooks, dispatches events, and exposes early wrappers around selected game systems such as the local player, ped, matrix, HUD messages, money, health, armor, and wanted level data.
 
 > This project is intended for learning reverse engineering, game internals, native hooking, and memory-structure exploration. Use it only in a legal, offline, and educational environment that you control.
