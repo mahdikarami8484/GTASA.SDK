@@ -23,11 +23,11 @@ namespace
         }
     }
 
-    using t_OnCrimeCommited = void(__thiscall*)(void* this_ptr, void* param_1, void* param_2,
+    using t_OnCrimeCommited = void(__fastcall*)(void* this_ptr, void* param_1, void* param_2,
                                                 void* param_3);
     t_OnCrimeCommited o_OnCrimeCommited = nullptr;
 
-    void __thiscall hk_OnCrimeCommited(void* this_ptr, void* param_1, void* param_2, void* param_3)
+    void __fastcall hk_OnCrimeCommited(void* this_ptr, void* param_1, void* param_2, void* param_3)
     {
         if (o_OnCrimeCommited)
         {
